@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.mapper.VisitorMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.blog.model.entity.Visitor">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="nickname" property="nickname" />
+        <result column="password" property="password" />
+        <result column="access_token" property="accessToken" />
+        <result column="salt" property="salt" />
+        <result column="email" property="email" />
+        <result column="ip" property="ip" />
+        <result column="create_date" property="createDate" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, nickname, password, access_token, salt, email, ip, create_date, update_time
+    </sql>
+
+</mapper>

@@ -1,0 +1,52 @@
+spring:
+  profiles:
+    active: dev
+  jackson:
+    default-property-inclusion: non_null
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  freemarker:
+    cache: false
+    charset: UTF-8
+    content-type: text/html
+    suffix: .ftl
+    check-template-location: true
+    template-loader-path: classpath:/templates/
+    expose-request-attributes: true
+    expose-session-attributes: true
+    request-context-attribute: request
+    expose-spring-macro-helpers: true
+    template_update_delay: 0
+    settings:
+      default_encoding: UTF-8
+      output_encoding: UTF-8
+      url_escaping_charset: UTF-8
+      tag_syntax: auto_detect
+      locale: zh_CN
+      datetime_format: yyyy-MM-dd HH:mm:ss
+      date_format: yyyy-MM-dd
+      time_format: HH:mm:ss
+    allow-request-override: true
+  resources:
+    static-locations: classpath:/static/
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:ehcache.xml
+
+logging:
+  config: classpath:log4j2.xml  # 指定lo4j2配置文件路径
+
+#mybatis:
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.back.back.model.entity
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
