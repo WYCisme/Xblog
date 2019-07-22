@@ -1,8 +1,6 @@
 package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blog.common.constants.SystemConstants;
 import com.blog.common.utils.EncryptUtil;
@@ -21,7 +19,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.service.ChannelService;
 import com.blog.service.LabelService;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,6 +79,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setLabels(articleForm.getLabels());
         article.setChannel(articleForm.getChannel());
         article.setImages(StrUtil.findImageByContent(articleForm.getContent()));
+        article.setIntro(StrUtil.findIntro(articleForm.getContent()));
         boolean flag = this.updateById(article);
         if (!flag) {
 
@@ -115,9 +113,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
             return R.error("文章不存在!");
         }
-        article = ArticleConverter.vo2article(articleDTO, article);
+        article = ArticleConverter.dto2article(articleDTO, article);
         article.setUpdateTime(LocalDateTime.now());
         article.setImages(StrUtil.findImageByContent(articleDTO.getContent()));
+        article.setIntro(StrUtil.findIntro(articleDTO.getContent()));
         boolean flag = this.updateById(article);
         if (!flag) {
 
@@ -151,6 +150,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setLabels(articleForm.getLabels());
         article.setChannel(articleForm.getChannel());
         article.setImages(StrUtil.findImageByContent(articleForm.getContent()));
+        article.setIntro(StrUtil.findIntro(articleForm.getContent()));
         boolean flag = this.save(article);
         if (!flag) {
 
@@ -169,12 +169,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Transactional
     public R save(ArticleDTO articleDTO) {
         // 新增文章
-        Article article = ArticleConverter.vo2article(articleDTO);
+        Article article = ArticleConverter.dto2article(articleDTO);
         article.setCreateDate(LocalDateTime.now());
         article.setUpdateTime(null);
         article.setSalt(RandomStringUtils.randomAlphanumeric(16));
         article.setSubmitToken(EncryptUtil.getInstance().encodeAes(article.getSalt(), SystemConstants.DESKEY));
         article.setImages(StrUtil.findImageByContent(articleDTO.getContent()));
+        article.setIntro(StrUtil.findIntro(articleDTO.getContent()));
         boolean flag = this.save(article);
         if (!flag) {
             return R.error();

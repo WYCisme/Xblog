@@ -36,6 +36,11 @@ public class Article extends Model<Article> {
     private String title;
 
     /**
+     * 文章简介
+     */
+    private String intro;
+
+    /**
      * 文章提交凭证
      */
     private String submitToken;

@@ -10,18 +10,14 @@ package com.blog.common.aspect;
 
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.blog.common.annotation.SysLogAnno;
-import com.blog.common.config.shiro.ShiroUtils;
+import com.blog.common.annotation.SysLog;
 import com.blog.common.utils.JsonUtil;
 import com.blog.common.utils.WebUtils;
-import com.blog.model.entity.SysLog;
 import com.blog.service.SysLogService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -42,7 +38,7 @@ public class SysLogAspect {
 	@Autowired
 	private SysLogService sysLogService;
 
-	@Pointcut("@annotation(com.blog.common.annotation.SysLogAnno)")
+	@Pointcut("@annotation(com.blog.common.annotation.SysLog)")
 	public void logPointCut() {
 
 	}
@@ -66,8 +62,8 @@ public class SysLogAspect {
             MethodSignature signature = (MethodSignature) joinPoint.getSignature();
             Method method = signature.getMethod();
 
-            SysLog sysLog = new SysLog();
-            SysLogAnno syslog = method.getAnnotation(SysLogAnno.class);
+            com.blog.model.entity.SysLog sysLog = new com.blog.model.entity.SysLog();
+            SysLog syslog = method.getAnnotation(SysLog.class);
             if(syslog != null){
                 //注解上的描述
                 sysLog.setOperation(syslog.value());

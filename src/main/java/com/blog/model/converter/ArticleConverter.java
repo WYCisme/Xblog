@@ -26,27 +26,27 @@ public class ArticleConverter {
         return article;
     }
 
-    public static ArticleForm vo2form(ArticleDTO articleVO) {
+    public static ArticleForm dto2form(ArticleDTO articleDTO) {
         ArticleForm articleForm = new ArticleForm();
-        BeanUtils.copyProperties(articleVO, articleForm);
+        BeanUtils.copyProperties(articleDTO, articleForm);
         return articleForm;
     }
 
-    public static Article vo2article(ArticleDTO articleVO) {
+    public static Article dto2article(ArticleDTO articleDTO) {
         Article article = new Article();
-        BeanUtils.copyProperties(articleVO, article);
+        BeanUtils.copyProperties(articleDTO, article);
         return article;
     }
 
-    public static Article vo2article(ArticleDTO articleVO, Article article) {
-        BeanUtils.copyProperties(articleVO, article);
+    public static Article dto2article(ArticleDTO articleDTO, Article article) {
+        BeanUtils.copyProperties(articleDTO, article);
         return article;
     }
 
-    public static ArticleDTO article2vo(Article article){
-        ArticleDTO articleVO = new ArticleDTO();
-        BeanUtils.copyProperties(article,articleVO);
-        return articleVO;
+    public static ArticleDTO article2dto(Article article){
+        ArticleDTO articleDTO = new ArticleDTO();
+        BeanUtils.copyProperties(article,articleDTO);
+        return articleDTO;
     }
 
 }

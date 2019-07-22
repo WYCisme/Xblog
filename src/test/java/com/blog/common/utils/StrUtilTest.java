@@ -20,4 +20,12 @@ public class StrUtilTest extends BaseUtil {
         String a = StrUtil.findImageByContent(article.getContent());
         System.out.println("a: "+a);
     }
+
+    @Test
+    public void findInfo() {
+        Article article = new Article().selectById(61);
+        String a = StrUtil.findIntro(article.getContent());
+        System.out.println("a: "+a);
+    }
+
 }

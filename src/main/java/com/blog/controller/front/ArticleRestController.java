@@ -3,7 +3,7 @@ package com.blog.controller.front;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.blog.common.utils.WebUtils;
+import com.blog.common.annotation.SysLog;
 import com.blog.controller.base.FrontBaseController;
 import com.blog.model.converter.ArticleConverter;
 import com.blog.model.entity.Admin;
@@ -45,6 +45,7 @@ public class ArticleRestController extends FrontBaseController {
      * @return
      */
     @PostMapping(value = "/public")
+    @SysLog("添加文章数据")
     public R addArticle(ArticleDTO articleDTO) {
         // 获取用户
         R r = getAdminByAccessToken();
@@ -76,13 +77,13 @@ public class ArticleRestController extends FrontBaseController {
         Article article = articleService.getOne(queryWrapper);
         if (article == null) {
             // 新增文章
-            ArticleForm articleForm = ArticleConverter.vo2form(articleDTO);
+            ArticleForm articleForm = ArticleConverter.dto2form(articleDTO);
             r = articleService.save(articleForm);
             articleDTO.setSubmitToken(r.getData()+"");
             r.setData(articleDTO);
         } else {
             // 修改
-            ArticleForm articleForm = ArticleConverter.vo2form(articleDTO);
+            ArticleForm articleForm = ArticleConverter.dto2form(articleDTO);
             r = articleService.updateById(articleForm);
         }
         r.setData(articleDTO);
@@ -95,6 +96,7 @@ public class ArticleRestController extends FrontBaseController {
      * @return
      */
     @PostMapping(value = "/search")
+    @SysLog("搜索文章数据")
     public R searchArticle(ArticleDTO articleDTO) {
         // 获取用户
         R r = getAdminByAccessToken();
@@ -111,7 +113,7 @@ public class ArticleRestController extends FrontBaseController {
         List<ArticleDTO> articleVOList = new ArrayList<>();
         if(page.getRecords().size() > 0){
             for (Article article : page.getRecords()) {
-                articleVOList.add(ArticleConverter.article2vo(article));
+                articleVOList.add(ArticleConverter.article2dto(article));
             }
         }
         return R.ok("查询成功!", articleVOList);

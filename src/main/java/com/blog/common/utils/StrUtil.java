@@ -7,6 +7,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.imageio.ImageIO;
+import javax.smartcardio.CardTerminal;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +22,8 @@ import java.util.regex.Pattern;
  * @date 2019/1/31
  */
 @Slf4j
-public class StrUtil {
+public class StrUtil
+{
 
     private static Pattern linePattern = Pattern.compile("_(\\w)");
 
@@ -31,11 +33,13 @@ public class StrUtil {
      * @param str
      * @return
      */
-    public static String lineToHump(String str) {
+    public static String lineToHump(String str)
+    {
         str = str.toLowerCase();
         Matcher matcher = linePattern.matcher(str);
         StringBuffer sb = new StringBuffer();
-        while (matcher.find()) {
+        while (matcher.find())
+        {
             matcher.appendReplacement(sb, matcher.group(1).toUpperCase());
         }
         matcher.appendTail(sb);
@@ -50,10 +54,12 @@ public class StrUtil {
      * @param str
      * @return
      */
-    public static String humpToLine(String str) {
+    public static String humpToLine(String str)
+    {
         Matcher matcher = humpPattern.matcher(str);
         StringBuffer sb = new StringBuffer();
-        while (matcher.find()) {
+        while (matcher.find())
+        {
             matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
         }
         matcher.appendTail(sb);
@@ -66,8 +72,10 @@ public class StrUtil {
      * @param content
      * @return
      */
-    public static String findImageByContent(String content) {
-        if (StringUtils.isBlank(content)) {
+    public static String findImageByContent(String content)
+    {
+        if (StringUtils.isBlank(content))
+        {
 
             return "";
         }
@@ -76,21 +84,27 @@ public class StrUtil {
 
         Matcher tagMatcher = tagPattern.matcher(content);
         JSONArray images = new JSONArray();
-        while (tagMatcher.find()) {
+        while (tagMatcher.find())
+        {
             String imageStr = tagMatcher.group(0);
             Matcher imageMatcher = imagePattern.matcher(imageStr);
-            while (imageMatcher.find()) {
+            while (imageMatcher.find())
+            {
                 String path = imageMatcher.group(0);
-                String fileName = path.substring(path.lastIndexOf("/")+1,path.length());
+                String fileName = path.substring(path.lastIndexOf("/") + 1, path.length());
                 File picture = new File(WebUtils.getFileABSPath(fileName));
-                if (picture == null) {
+                if (picture == null)
+                {
                     continue;
                 }
                 JSONObject imageObj = new JSONObject();
                 BufferedImage sourceImg = null;
-                try {
+                try
+                {
                     sourceImg = ImageIO.read(new FileInputStream(picture));
-                } catch (IOException e) {
+                }
+                catch (IOException e)
+                {
                     log.error("博客文章整理图片时异常", e);
                 }
                 imageObj.put("src", path);
@@ -100,11 +114,28 @@ public class StrUtil {
                 imageObj.put("isBig", sourceImg.getHeight() > 100 && sourceImg.getWidth() > 300);
                 images.add(imageObj);
             }
-            if (images.size() == 3) {
+            if (images.size() == 3)
+            {
                 break;
             }
         }
         return images.toString();
     }
 
+    /**
+     * 从文章中获取简介
+     *
+     * @param content
+     * @return
+     */
+    public static String findIntro(String content)
+    {
+
+        String[] split = content.split("<!--title-->");
+        if (split != null && split.length >= 2)
+        {
+            return split[0];
+        }
+        return content.substring(0, content.length() > 100 ? 100 : content.length());
+    }
 }

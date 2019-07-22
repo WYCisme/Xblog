@@ -1,28 +1,21 @@
 package com.blog.controller.front;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.blog.common.annotation.SysLogAnno;
-import com.blog.common.constants.AppConstants;
+import com.blog.common.annotation.SysLog;
 import com.blog.common.constants.CacheKey;
 import com.blog.common.utils.CacheUtil;
-import com.blog.common.utils.WebUtils;
 import com.blog.controller.base.BaseController;
-import com.blog.model.entity.Article;
 import com.blog.model.entity.Label;
 import com.blog.model.vo.ArticleVO;
 import com.blog.model.vo.R;
 import com.blog.service.ArticleService;
 import com.blog.service.LabelService;
-import com.vividsolutions.jts.operation.valid.IsValidOp;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,8 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -55,7 +46,6 @@ public class HomeController extends BaseController {
      *
      * @return
      */
-    @SysLogAnno("主页")
     @RequestMapping(value = "/")
     public ModelAndView homePre(@RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "10") int size, @RequestParam(value = "title", defaultValue = "") String title, @RequestParam(value="labels",defaultValue = "") String labels) {
@@ -64,7 +54,7 @@ public class HomeController extends BaseController {
         ArticleVO articleVO = new ArticleVO();
         articleVO.setTitle(title);
         articleVO.setLabels(labels);
-        articleVO.setSort(" view_count desc ");
+        articleVO.setSort(" a.update_time desc ");
 
         Page<ArticleVO> pages =
                 articleService.pageFrontArticleVO(new Page<ArticleVO>(page, size), articleVO);
@@ -94,7 +84,7 @@ public class HomeController extends BaseController {
         ArticleVO articleVO = new ArticleVO();
         articleVO.setTitle(title);
         articleVO.setLabels(labels);
-        articleVO.setSort(" view_count desc ");
+        articleVO.setSort(" a.view_count desc ");
         Page<ArticleVO> pages =
             articleService.pageFrontArticleVO(new Page<ArticleVO>(page, size), articleVO);
         ModelAndView modelAndView = new ModelAndView();
@@ -119,7 +109,7 @@ public class HomeController extends BaseController {
     @RequestMapping("/isView")
     public ModelAndView isView() {
         ArticleVO articleVO = new ArticleVO();
-        articleVO.setSort(" view_count desc ");
+        articleVO.setSort(" a.view_count desc ");
         IPage<ArticleVO> pages = articleService.pageFrontArticleVO(new Page<ArticleVO>(1, 5), articleVO);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("front/home/isView");
@@ -137,7 +127,7 @@ public class HomeController extends BaseController {
     @RequestMapping("/isUp")
     public ModelAndView isUp() {
         ArticleVO articleVO = new ArticleVO();
-        articleVO.setSort("  up_count desc ");
+        articleVO.setSort("  a.up_count desc ");
         IPage<ArticleVO> pages = articleService.pageFrontArticleVO(new Page<ArticleVO>(1, 5), articleVO);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("front/home/isUp");
