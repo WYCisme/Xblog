@@ -14,6 +14,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +49,7 @@ public class LoginController  extends BaseController {
      */
     @RequestMapping(value = "/login")
     public String login(Model model) {
-        return "back/loginForm";
+        return "back/login/loginForm";
     }
 
     /**
@@ -62,7 +63,8 @@ public class LoginController  extends BaseController {
      */
     @RequestMapping(value = "/logining")
     public ModelAndView login(@RequestParam("username") String username, @RequestParam("password") String password,
-                              @RequestParam("code") String code, HttpSession httpSession, ModelAndView modelAndView) {
+                              @RequestParam("code") String code, HttpSession httpSession) {
+        ModelAndView modelAndView = new ModelAndView();
         // 检查值
         R result = checkLogin(code);
         if (result.getCode() < 1) {
@@ -83,7 +85,8 @@ public class LoginController  extends BaseController {
             currentUser.login(token);
             Session session = currentUser.getSession();
             session.setAttribute("userName", username);
-            modelAndView.setViewName("forward:/back/admin/index");
+            modelAndView.addObject("message", username);
+            modelAndView.setViewName("forward:/back/index");
             return modelAndView;
         } catch (UnknownAccountException e) {
             modelAndView.addObject("message", "账号不存在");
@@ -134,4 +137,17 @@ public class LoginController  extends BaseController {
         }
         return R.ok("检查成功");
     }
+
+    /**
+     * 方法请求总入口
+     *
+     * @return
+     */
+    @RequestMapping("/index")
+    public String index(){
+
+        return "/back/common/main";
+    }
+
+
 }

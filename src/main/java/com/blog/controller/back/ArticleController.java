@@ -62,11 +62,13 @@ public class ArticleController extends BaseController {
      */
     @RequiresPermissions("article:list")
     @RequestMapping(value = "/listArticle")
-    public @ResponseBody R listArticle(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
+    public ModelAndView listArticle(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
         defaultValue = "10") Integer limit, @ModelAttribute Article article) {
+        ModelAndView modelAndView = new ModelAndView("/back/article/listArticle");
         QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
         IPage<Article> pages = article.selectPage(new Page<>(page, limit), null);
-        return R.page(pages);
+        modelAndView.addObject("pages",pages);
+        return modelAndView;
     }
 
     /**
