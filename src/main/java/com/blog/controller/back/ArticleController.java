@@ -60,7 +60,7 @@ public class ArticleController extends BaseController {
      * @param article
      * @return
      */
-    @RequiresPermissions("article:list")
+//    @RequiresPermissions("article:list")
     @RequestMapping(value = "/listArticle")
     public ModelAndView listArticle(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
         defaultValue = "10") Integer limit, @ModelAttribute Article article) {
@@ -78,7 +78,7 @@ public class ArticleController extends BaseController {
      * @param modelAndView
      * @return
      */
-    @RequiresPermissions("article:del")
+//    @RequiresPermissions("article:del")
     @RequestMapping(value = "{ids}/removeArticle")
     public @ResponseBody R removeArticle(@PathVariable("ids") String ids, ModelAndView modelAndView) {
         String[] idArray = ids.split(",");
@@ -100,13 +100,13 @@ public class ArticleController extends BaseController {
      *
      * @return
      */
-    @RequiresPermissions("article:edit")
+//    @RequiresPermissions("article:edit")
     @GetMapping("{id}/toEditArticle")
     public ModelAndView toEditArticle(@PathVariable("id") Long id, ModelAndView modelAndView) {
         Article article = articleService.getById(id);
         modelAndView.addObject("article", article);
         modelAndView.addObject("em",ArticleStatus.values());
-        modelAndView.setViewName("back/article/toEditArticle");
+        modelAndView.setViewName("/back/article/toEditArticle");
         return modelAndView;
     }
 
@@ -118,7 +118,7 @@ public class ArticleController extends BaseController {
      * @param modelAndView
      * @return
      */
-    @RequiresPermissions("article:edit")
+//    @RequiresPermissions("article:edit")
     @RequestMapping(value = "/editArticle")
     public ModelAndView editArticle(String flag, @ModelAttribute @Valid ArticleForm articleForm,
         ModelAndView modelAndView, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
@@ -129,7 +129,7 @@ public class ArticleController extends BaseController {
             return modelAndView;
         }
         R result = articleService.updateById(articleForm);
-        modelAndView.setViewName("forward:/back/article/index");
+        modelAndView.setViewName("/back/article/editArticle");
         modelAndView.addObject("message", result.getMsg());
         return modelAndView;
     }
@@ -139,11 +139,11 @@ public class ArticleController extends BaseController {
      *
      * @return
      */
-    @RequiresPermissions("article:add")
+//    @RequiresPermissions("article:add")
     @GetMapping("/toAddArticle")
     public String toAddArticle(Model model) {
         model.addAttribute("em",ArticleStatus.values());
-        return ("back/article/toAddArticle");
+        return "/back/article/toAddArticle";
     }
 
     /**
@@ -156,7 +156,7 @@ public class ArticleController extends BaseController {
      * @param redirectAttributes
      * @return
      */
-    @RequiresPermissions("article:add")
+//    @RequiresPermissions("article:add")
     @PostMapping(value = "/addArticle")
     public ModelAndView addArticle(@ModelAttribute @Valid ArticleForm articleForm,
          BindingResult bindingResult, RedirectAttributes redirectAttributes) {

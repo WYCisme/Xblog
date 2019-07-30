@@ -1,5 +1,6 @@
 <!doctype html>
 <html class="x-admin-sm">
+
 <#include 'head.ftl' />
     <body class="index">
         <!-- 顶部开始 -->
@@ -27,6 +28,7 @@
 
         });
     </script>
+
 
 
 <#include 'footer.ftl' />

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 	<html class="x-admin-sm">
     <#include "../common/head.ftl" />
+<#import "../common/page.ftl" as pg>
     <body>
     <div class="x-nav">
 			  <span class="layui-breadcrumb">
@@ -13,14 +14,13 @@
            onclick="location.reload()" title="刷新">
             <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
     </div>
-    <form action="/back/article/listArticle" method="post">
         <div class="layui-fluid">
 
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-body ">
-                            <form class="layui-form layui-col-space5">
+                            <form class="layui-form layui-col-space5" action="/back/article/listArticle" method="post">
                                 <div class="layui-inline layui-show-xs-block">
                                     <input class="layui-input" autocomplete="off" placeholder="开始日" name="start"
                                            id="start">
@@ -29,7 +29,7 @@
                                     <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end">
                                 </div>
                                 <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" name="username" placeholder="请输入用户名" autocomplete="off"
+                                    <input type="text" name="title" value="${ title!''}" placeholder="请输入标题" autocomplete="off"
                                            class="layui-input">
                                 </div>
                                 <div class="layui-inline layui-show-xs-block">
@@ -41,7 +41,7 @@
                         <div class="layui-card-header">
                             <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除
                             </button>
-                            <button class="layui-btn" onclick="xadmin.open('添加用户','./admin-add.html',600,400)"><i
+                            <button class="layui-btn" onclick="xadmin.open('添加','${request.contextPath}/back/article/toAddArticle')"><i
                                     class="layui-icon"></i>添加
                             </button>
                         </div>
@@ -71,13 +71,10 @@
                                 <td>${item.title}</td>
                                 <td>${ (item.intro)!''}</td>
                                 <td>${item.status}</td>
-                                <td>${(item.create_time)!''}</td>
-                                <td>${(item.update_time)!''}</td>
+                                <td>${(item.createDate?date)!''}</td>
+                                <td>${(item.updateTime?date)!''}</td>
                                 <td class="td-manage">
-                                    <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
-                                        <i class="layui-icon">&#xe601;</i>
-                                    </a>
-                                    <a title="编辑" onclick="xadmin.open('编辑','admin-edit.html')" href="javascript:;">
+                                        <a title="编辑" onclick="xadmin.open('编辑','${request.contextPath}/back/article/${item.id}/toEditArticle')" href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
                                     <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
@@ -91,22 +88,12 @@
                             </table>
                         </div>
                         <div class="layui-card-body ">
-                            <div class="page">
-                                <div>
-                                    <a class="prev" href="">&lt;&lt;</a>
-                                    <a class="num" href="">1</a>
-                                    <span class="current">2</span>
-                                    <a class="num" href="">3</a>
-                                    <a class="num" href="">489</a>
-                                    <a class="next" href="">&gt;&gt;</a>
-                                </div>
-                            </div>
+                            <@pg.page _url='/back/article/listArticle' _data=pages _params='' />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
     </body>
     <script>
         layui.use(['laydate', 'form'], function () {
@@ -124,30 +111,6 @@
             });
         });
 
-        /*用户-停用*/
-        function member_stop(obj, id) {
-            layer.confirm('确认要停用吗？', function (index) {
-
-                if ($(obj).attr('title') == '启用') {
-
-                    //发异步把用户状态进行更改
-                    $(obj).attr('title', '停用')
-                    $(obj).find('i').html('&#xe62f;');
-
-                    $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                    layer.msg('已停用!', {icon: 5, time: 1000});
-
-                } else {
-                    $(obj).attr('title', '启用')
-                    $(obj).find('i').html('&#xe601;');
-
-                    $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                    layer.msg('已启用!', {icon: 5, time: 1000});
-                }
-
-            });
-        }
-
         /*用户-删除*/
         function member_del(obj, id) {
             layer.confirm('确认要删除吗？', function (index) {
@@ -164,6 +127,7 @@
 
             layer.confirm('确认要删除吗？' + data, function (index) {
                 //捉到所有被选中的，发异步进行删除
+                console.log(index);
                 layer.msg('删除成功', {icon: 1});
                 $(".layui-form-checked").not('.header').parents('tr').remove();
             });

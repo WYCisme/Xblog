@@ -61,6 +61,7 @@ body{
     display: inline-block;
     padding: 5px;
     min-width: 15px;
+    margin: 5px;
     border: 1px solid #E2E2E2;
 }
 .page span.current{
@@ -68,6 +69,7 @@ body{
     background: #009688;
     color: #fff;
     padding: 5px;
+
     min-width: 15px;
     border: 1px solid #009688;
 }
