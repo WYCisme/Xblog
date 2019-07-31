@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableScheduling
-@MapperScan("com.blog.mapper")
+@MapperScan({"com.blog.mapper","com.blog.job.dao"})
 @EnableCaching
 @ComponentScan
 public class BlogApplication extends SpringBootServletInitializer {

@@ -49,7 +49,7 @@ public class ArticleController extends BaseController {
      */
     @RequestMapping("/index")
     public String index() {
-        return "back/article/listArticle";
+        return "back/article/list";
     }
 
     /**
@@ -61,10 +61,10 @@ public class ArticleController extends BaseController {
      * @return
      */
 //    @RequiresPermissions("article:list")
-    @RequestMapping(value = "/listArticle")
-    public ModelAndView listArticle(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
+    @RequestMapping(value = "/list")
+    public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
         defaultValue = "10") Integer limit, @ModelAttribute Article article) {
-        ModelAndView modelAndView = new ModelAndView("/back/article/listArticle");
+        ModelAndView modelAndView = new ModelAndView("/back/article/list");
         QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
         IPage<Article> pages = article.selectPage(new Page<>(page, limit), null);
         modelAndView.addObject("pages",pages);

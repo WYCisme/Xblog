@@ -26,9 +26,22 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('文章列表','${request.contextPath}/back/article/listArticle')">
+                        <a onclick="xadmin.add_tab('文章列表','${request.contextPath}/back/article/list')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>文章列表</cite></a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="定时任务管理">&#xe723;</i>
+                    <cite>定时任务管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a onclick="xadmin.add_tab('定时任务列表','${request.contextPath}/back/schedule/list')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>定时任务列表</cite></a>
                     </li>
                 </ul>
             </li>

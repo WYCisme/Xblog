@@ -1,6 +1,6 @@
 <@override name="middle" >
  <div class="layui-card">
-     <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="listArticleForm">
+     <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="listForm">
          <div class="layui-form-item">
              <div class="layui-inline">
                  <label class="layui-form-label">文章标题</label>
@@ -16,17 +16,17 @@
              </div>
 
              <div class="layui-inline">
-                 <button class="layui-btn layuiadmin-btn-useradmin" lay-submit="" lay-filter="listArticleSearch">
+                 <button class="layui-btn layuiadmin-btn-useradmin" lay-submit="" lay-filter="listSearch">
                      <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                  </button>
              </div>
          </div>
      </div>
      <div class="layui-card-body">
-        <table class="layui-hide" id="listArticle" lay-filter="test"></table>
+        <table class="layui-hide" id="list" lay-filter="test"></table>
      </div>
  </div>
-<script type="text/html" id="listArticleBar">
+<script type="text/html" id="listBar">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -43,9 +43,9 @@
 
         //执行一个 table 实例
         table.render({
-            elem: '#listArticle'
+            elem: '#list'
             ,height: 700
-            ,url: '/back/article/listArticle' //数据接口
+            ,url: '/back/article/list' //数据接口
             ,title: '用户表'
             ,page: true //开启分页
             ,limit: 20
@@ -60,7 +60,7 @@
                 ,{field: 'status', title: '状态', width:'10%', sort: true}
                 ,{field: 'createDate', title: '创建时间', width: '10%', sort: true,}
                 ,{field: 'updateTime', title: '更新时间', width:'10%'}
-               ,{fixed: 'right',  align:'center', toolbar: '#listArticleBar'}
+               ,{fixed: 'right',  align:'center', toolbar: '#listBar'}
             ]]
         });
 
@@ -99,7 +99,7 @@
                             success:function(dataObj){
                                 layer.msg(dataObj.msg);
                                 if(dataObj.code> 0){
-                                    table.reload('listArticle');
+                                    table.reload('list');
                                 }
                             }
                         });
@@ -126,7 +126,7 @@
                         success:function(data){
                             layer.msg(data.msg);
                             if(data.code> 0){
-                                table.reload('listArticle');
+                                table.reload('list');
                             }
                         }
                     });
@@ -137,11 +137,11 @@
             }
         });
         //监听搜索
-        form.render(null, 'listArticleForm');
-        form.on('submit(listArticleSearch)', function(data){
+        form.render(null, 'listForm');
+        form.on('submit(listSearch)', function(data){
             var field = data.field;
             //执行重载
-            table.reload('listArticle', {
+            table.reload('list', {
                 where: field
             });
         });
