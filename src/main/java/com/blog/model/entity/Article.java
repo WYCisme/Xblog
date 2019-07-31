@@ -7,10 +7,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
+import com.blog.common.constants.AppConstants;
 import com.blog.common.utils.EntityUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -92,11 +94,13 @@ public class Article extends Model<Article> {
     /**
      * 创建时间
      */
+    @DateTimeFormat(pattern = AppConstants.DATE_FORMAT)
     private LocalDateTime createDate;
 
     /**
      * 更新时间
      */
+    @DateTimeFormat(pattern = AppConstants.DATE_FORMAT)
     private LocalDateTime updateTime;
 
     /**

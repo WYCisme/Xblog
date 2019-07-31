@@ -32,7 +32,7 @@ public class MyShiroFilter extends AuthenticatingFilter {
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) throws Exception {
         // 获取请求token
         String token = getRequestToken((HttpServletRequest)request);
-
+        log.info("  shiro token createToken " + token);
         if (StringUtils.isBlank(token)) {
             return null;
         }
@@ -50,6 +50,14 @@ public class MyShiroFilter extends AuthenticatingFilter {
         // return false;
     }
 
+    /**
+     * 登录前调用的方法, 拦截的方法才会走
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         // 获取请求token，如果token不存在，直接返回401
@@ -57,6 +65,7 @@ public class MyShiroFilter extends AuthenticatingFilter {
         String token = getRequestToken(httpServletRequest);
         log.info("令牌是:{}", token);
         if (StringUtils.isBlank(token)) {
+
             HttpServletResponse httpResponse = (HttpServletResponse)response;
             httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
             httpResponse.setHeader("Access-Control-Allow-Origin", WebUtils.getOrigin());
@@ -72,6 +81,15 @@ public class MyShiroFilter extends AuthenticatingFilter {
         return executeLogin(request, response);
     }
 
+    /**
+     * 登录失败的情况
+     *
+     * @param token
+     * @param e
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     protected boolean onLoginFailure(AuthenticationToken token, AuthenticationException e, ServletRequest request,
         ServletResponse response) {
@@ -85,6 +103,7 @@ public class MyShiroFilter extends AuthenticatingFilter {
             R r = R.error(org.apache.http.HttpStatus.SC_UNAUTHORIZED, throwable.getMessage());
 
             String json = JsonUtil.bean2Json(r);
+            log.error("  shiro登录失败: " + json, e);
             httpResponse.getWriter().print(json);
         } catch (IOException e1) {
 

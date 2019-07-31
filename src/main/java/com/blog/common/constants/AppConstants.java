@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
  * @author zx
  * @date 2019/1/28
  */
-public class AppConstants {
+public final class AppConstants {
 
     /** session 有效期 **/
     public static final String USER_SESSION = "admin_serssion";
@@ -31,6 +31,8 @@ public class AppConstants {
     public static int COOKIE_EXPIRE = 7 * 24 * 60 * 60;
 
 
+    /** 时间格式 **/
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 
     /** 上传文件路径 **/

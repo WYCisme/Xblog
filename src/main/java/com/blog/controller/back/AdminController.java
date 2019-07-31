@@ -123,7 +123,7 @@ public class AdminController extends BaseController {
         }
         R result = adminService.updateAdmin(adminForm);
         modelAndView.setViewName("forward:/back/admin/index");
-        modelAndView.addObject("message", result.getMsg());
+
         return modelAndView;
     }
 
