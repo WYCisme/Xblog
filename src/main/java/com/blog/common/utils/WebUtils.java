@@ -3,14 +3,8 @@ package com.blog.common.utils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constants.AppConstants;
-import com.blog.model.entity.Admin;
-import com.blog.model.vo.R;
-import com.blog.service.AdminService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.request.RequestContextHolder;

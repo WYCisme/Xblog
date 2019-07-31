@@ -12,7 +12,7 @@ import com.blog.model.entity.ArticleLabel;
 import com.blog.model.form.ArticleForm;
 import com.blog.model.dto.ArticleDTO;
 import com.blog.model.vo.ArticleVO;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import com.blog.service.ArticleLabelService;
 import com.blog.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -3,7 +3,7 @@ package com.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.blog.model.entity.Admin;
 import com.blog.model.form.AdminForm;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import com.blog.service.impl.AdminServiceImpl;
 
 import java.util.List;

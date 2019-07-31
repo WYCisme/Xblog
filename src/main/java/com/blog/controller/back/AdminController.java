@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blog.controller.base.BaseController;
 import com.blog.model.entity.Admin;
 import com.blog.model.form.AdminForm;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import com.blog.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;

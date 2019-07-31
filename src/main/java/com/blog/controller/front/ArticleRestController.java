@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import com.blog.service.ArticleService;
 
 import java.util.ArrayList;

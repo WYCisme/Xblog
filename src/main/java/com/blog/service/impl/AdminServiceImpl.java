@@ -5,7 +5,7 @@ import com.blog.mapper.AdminMapper;
 import com.blog.model.converter.AdminConverter;
 import com.blog.model.entity.Admin;
 import com.blog.model.form.AdminForm;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import com.blog.service.AdminService;
 import com.blog.common.utils.EncryptUtil;
 import com.blog.common.constants.SystemConstants;

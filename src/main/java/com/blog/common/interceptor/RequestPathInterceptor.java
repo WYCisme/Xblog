@@ -9,10 +9,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.blog.common.constants.AppConstants;
 import com.blog.common.utils.WebUtils;
-import com.blog.model.entity.Admin;
-import com.blog.model.vo.R;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;

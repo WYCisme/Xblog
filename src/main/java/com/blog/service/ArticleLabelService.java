@@ -2,7 +2,7 @@ package com.blog.service;
 
 import com.blog.model.entity.ArticleLabel;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 
 import java.util.List;
 

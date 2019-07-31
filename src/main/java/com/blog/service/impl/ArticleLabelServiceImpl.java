@@ -3,7 +3,7 @@ package com.blog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.model.entity.ArticleLabel;
 import com.blog.mapper.ArticleLabelMapper;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import com.blog.service.ArticleLabelService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

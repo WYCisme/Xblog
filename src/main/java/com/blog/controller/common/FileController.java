@@ -3,11 +3,10 @@ package com.blog.controller.common;
 import com.blog.common.constants.AppConstants;
 import com.blog.common.utils.WebUtils;
 import com.blog.controller.base.FrontBaseController;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 

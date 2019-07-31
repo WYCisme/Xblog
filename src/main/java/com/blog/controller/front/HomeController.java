@@ -2,13 +2,12 @@ package com.blog.controller.front;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.blog.common.annotation.SysLog;
 import com.blog.common.constants.CacheKey;
 import com.blog.common.utils.CacheUtil;
 import com.blog.controller.base.BaseController;
 import com.blog.model.entity.Label;
 import com.blog.model.vo.ArticleVO;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import com.blog.service.ArticleService;
 import com.blog.service.LabelService;
 import lombok.extern.slf4j.Slf4j;

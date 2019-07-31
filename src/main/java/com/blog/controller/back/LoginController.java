@@ -1,11 +1,10 @@
 package com.blog.controller.back;
 
-import com.blog.common.constants.AppConstants;
 import com.blog.common.constants.CacheKey;
 import com.blog.common.constants.SystemConstants;
 import com.blog.common.utils.CacheUtil;
 import com.blog.controller.base.BaseController;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -14,7 +13,6 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

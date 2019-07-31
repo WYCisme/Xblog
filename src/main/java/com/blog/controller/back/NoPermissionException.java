@@ -1,19 +1,12 @@
 package com.blog.controller.back;
 
 import com.blog.common.constants.AppConstants;
-import com.blog.common.utils.WebUtils;
 import com.blog.controller.base.BaseController;
-import com.blog.model.vo.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.io.IOException;
-import java.util.logging.Logger;
 
 /**
  * 描述：无权限页面

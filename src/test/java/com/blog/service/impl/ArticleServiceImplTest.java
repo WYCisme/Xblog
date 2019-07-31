@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blog.BaseUtil;
 import com.blog.mapper.ArticleMapper;
 import com.blog.model.vo.ArticleVO;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import com.blog.service.ArticleService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * @author zx

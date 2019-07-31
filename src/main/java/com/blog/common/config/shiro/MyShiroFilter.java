@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.blog.common.constants.AppConstants;
 import com.blog.common.utils.JsonUtil;
-import com.blog.model.entity.Admin;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;

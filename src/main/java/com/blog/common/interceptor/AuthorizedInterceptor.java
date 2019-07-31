@@ -4,17 +4,10 @@ package com.blog.common.interceptor;
 import com.blog.model.entity.Admin;
 import com.blog.common.utils.WebUtils;
 import com.blog.common.constants.AppConstants;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * 登录拦截器

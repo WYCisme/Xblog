@@ -6,7 +6,7 @@ import com.blog.model.entity.ArticleLabel;
 import com.blog.model.entity.Label;
 import com.blog.mapper.LabelMapper;
 import com.blog.model.form.LabelForm;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import com.blog.service.ArticleLabelService;
 import com.blog.service.LabelService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

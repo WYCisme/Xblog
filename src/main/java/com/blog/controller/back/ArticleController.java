@@ -23,7 +23,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blog.controller.base.BaseController;
 import com.blog.model.entity.Article;
 import com.blog.model.form.ArticleForm;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import com.blog.service.ArticleService;
 
 /**

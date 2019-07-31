@@ -1,15 +1,10 @@
 package com.blog.controller.base;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constants.SystemConstants;
 import com.blog.common.utils.CacheUtil;
-import com.blog.model.entity.Admin;
-import com.blog.model.vo.R;
-import com.blog.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
