@@ -1,9 +1,9 @@
 package com.blog.model.converter;
 
+import com.blog.model.entity.Role;
+import com.blog.model.form.RoleForm;
 import org.springframework.beans.BeanUtils;
 
-import com.leave.model.entity.Role;
-import com.leave.model.form.RoleForm;
 
 /**
  * 转换类

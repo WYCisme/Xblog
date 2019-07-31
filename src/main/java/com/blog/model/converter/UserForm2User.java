@@ -1,9 +1,8 @@
 package com.blog.model.converter;
 
+import com.blog.model.entity.User;
+import com.blog.model.form.UserForm;
 import org.springframework.beans.BeanUtils;
-
-import com.leave.model.entity.User;
-import com.leave.model.form.UserForm;
 
 /**
  * 转换类

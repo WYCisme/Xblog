@@ -21,7 +21,7 @@ public interface RoleService extends IService<Role> {
      * @param id
      * @return
      */
-    R deleteRoleById(Long id);
+    R deleteById(Long id);
 
 
 
@@ -31,7 +31,7 @@ public interface RoleService extends IService<Role> {
      * @param roleForm
      * @return
      */
-    R updateRole(RoleForm roleForm);
+    R update(RoleForm roleForm);
 
     /**
      * 添加
@@ -39,6 +39,6 @@ public interface RoleService extends IService<Role> {
      * @param roleForm
      * @return
      */
-    R addRole(RoleForm roleForm);
+    R add(RoleForm roleForm);
 
 }
