@@ -8,7 +8,6 @@ import com.blog.model.enums.ArticleStatus;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,15 +41,6 @@ public class ArticleController extends BaseController {
     @Autowired
     private ArticleService articleService;
 
-    /**
-     * 文章操作首页
-     *
-     * @return
-     */
-    @RequestMapping("/index")
-    public String index() {
-        return "back/article/list";
-    }
 
     /**
      * 查询数据
@@ -61,10 +51,10 @@ public class ArticleController extends BaseController {
      * @return
      */
 //    @RequiresPermissions("article:list")
-    @RequestMapping(value = "/list")
+    @GetMapping(value = "/list")
     public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
         defaultValue = "10") Integer limit, @ModelAttribute Article article) {
-        ModelAndView modelAndView = new ModelAndView("/back/article/list");
+        ModelAndView modelAndView = new ModelAndView("/back/article/article-list");
         QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
         IPage<Article> pages = article.selectPage(new Page<>(page, limit), null);
         modelAndView.addObject("pages",pages);
@@ -79,7 +69,7 @@ public class ArticleController extends BaseController {
      * @return
      */
 //    @RequiresPermissions("article:del")
-    @RequestMapping(value = "{ids}/removeArticle")
+    @DeleteMapping(value = "{ids}/delete")
     public @ResponseBody R removeArticle(@PathVariable("ids") String ids, ModelAndView modelAndView) {
         String[] idArray = ids.split(",");
         boolean flag = true;
@@ -101,8 +91,8 @@ public class ArticleController extends BaseController {
      * @return
      */
 //    @RequiresPermissions("article:edit")
-    @GetMapping("{id}/toEditArticle")
-    public ModelAndView toEditArticle(@PathVariable("id") Long id, ModelAndView modelAndView) {
+    @GetMapping("{id}/to/edit")
+    public ModelAndView toEdit(@PathVariable("id") Long id, ModelAndView modelAndView) {
         Article article = articleService.getById(id);
         modelAndView.addObject("article", article);
         modelAndView.addObject("em",ArticleStatus.values());
@@ -119,8 +109,8 @@ public class ArticleController extends BaseController {
      * @return
      */
 //    @RequiresPermissions("article:edit")
-    @RequestMapping(value = "/editArticle")
-    public ModelAndView editArticle(String flag, @ModelAttribute @Valid ArticleForm articleForm,
+    @PutMapping(value = "/edit")
+    public ModelAndView edit(String flag, @ModelAttribute @Valid ArticleForm articleForm,
         ModelAndView modelAndView, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             log.error(" [ 修改文章 ] 参数不正确 , articleForm ={} ", articleForm);
@@ -157,7 +147,7 @@ public class ArticleController extends BaseController {
      * @return
      */
 //    @RequiresPermissions("article:add")
-    @PostMapping(value = "/addArticle")
+    @PostMapping(value = "/add")
     public ModelAndView addArticle(@ModelAttribute @Valid ArticleForm articleForm,
          BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();

@@ -13,11 +13,6 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-<<<<<<< HEAD
-=======
-import org.apache.xpath.operations.Mod;
-import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> 4e4fdf920b72a9d2bfc5d3365463a1c445be7269
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -2,7 +2,6 @@ package com.blog.model.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.leave.model.entity.User;
 
 import lombok.Data;
 

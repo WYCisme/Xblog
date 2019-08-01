@@ -15,19 +15,7 @@
             <!-- 右侧主体结束 -->
         <!-- 中部结束 -->
     </body>
-    <script>
-        //JavaScript代码区域
-        layui.use(['element','layer'], function () {
-            var element = layui.element;
-            var layer = layui.layer;
 
-            var message = "${message!''}";
-            if(message != ""){
-                layer.msg(message);
-            }
-
-        });
-    </script>
 
 
 

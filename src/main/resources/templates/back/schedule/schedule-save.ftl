@@ -4,7 +4,7 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form" action="/back/schedule/save">
+        <form class="layui-form">
             <div class="layui-form-item">
                 <label for="beanName" class="layui-form-label">
                     <span class="x-red">*</span>任务名称
@@ -45,7 +45,7 @@
             <div class="layui-form-item">
                 <label for="L_repass" class="layui-form-label">
                 </label>
-                <button class="layui-btn" lay-filter="save" lay-submit="">
+                <button class="layui-btn" lay-filter="add" lay-submit="">
                     增加
                 </button>
             </div>
@@ -57,39 +57,37 @@
             $ = layui.jquery;
             var form = layui.form,
                     layer = layui.layer;
+
+
             //监听提交
-            form.on('submit(save)',
+            form.on('submit(add)',
                     function (data) {
                         $.ajax({
-                            url: ${request.contextPath} + "/back/schedule/save",
-                            type:"POST",
-                            contentType: 'application/json',
-                            dataType:"json",
-                            data: JSON.stringify(data.field),
-                            success:function (data) {
-                                if(data.code > 1){
-                                    layer.alert("增加成功", {
+                            url: "/back/schedule/save",
+                            type: "POST",
+                            dataType: "json",
+                            data: data.field,
+                            success: function (data) {
+                                if (data.code > 0) {
+                                    layer.alert(data.msg, {
                                                 icon: 6
-                                    },
-                                    function() {
-                                        //关闭当前frame
-                                        xadmin.close();
+                                            },
+                                            function () {
+                                                //关闭当前frame
+                                                xadmin.close();
 
-                                        // 可以对父窗口进行刷新
-                                        xadmin.father_reload();
-                                    });
-                                }else{
+                                                // 可以对父窗口进行刷新
+                                                xadmin.father_reload();
+                                            });
+                                } else {
                                     layer.msg(data.msg)
                                 }
                             }
-                        });
-
+                        })
                         return false;
                     });
 
-        });
-
-</script>
+        });</script>
 
 </body>
 

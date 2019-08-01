@@ -1,9 +1,8 @@
 package com.blog.model.converter;
 
+import com.blog.model.entity.AdminRole;
+import com.blog.model.form.AdminRoleForm;
 import org.springframework.beans.BeanUtils;
-
-import com.leave.model.entity.AdminRole;
-import com.leave.model.form.AdminRoleForm;
 
 /**
  * 转换类

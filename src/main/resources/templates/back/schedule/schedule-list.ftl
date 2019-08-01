@@ -59,7 +59,7 @@
                             <tbody>
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="" lay-skin="primary">
+                                    <input type="checkbox" name="" lay-skin="primary" value="${item.id}">
                                 </td>
                                 <td>${item.id}</td>
                                 <td>${item.beanName}</td>
@@ -72,7 +72,7 @@
                                     <a title="编辑" onclick="xadmin.open('编辑','${request.contextPath}/back/schedule/${item.id}/to/update')" href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
-                                    <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                                    <a title="删除" onclick="member_del(this,'${item.id}')" href="javascript:;">
                                         <i class="layui-icon">&#xe640;</i>
                                     </a>
                                 </td>
@@ -94,6 +94,7 @@
         layui.use(['laydate', 'form'], function () {
             var laydate = layui.laydate;
             var form = layui.form;
+            $ = layui.jquery;
 
             //执行一个laydate实例
             laydate.render({
@@ -108,22 +109,51 @@
 
         /*用户-删除*/
         function member_del(obj, id) {
-            layer.confirm('确认要删除吗？', function (index) {
-                console.log(index);
-                //发异步删除数据
-                $(obj).parents("tr").remove();
-                layer.msg('已删除!', {icon: 1, time: 1000});
-            });
+            tip([id])
         }
 
 
         function delAll(argument) {
+            let list = []
+            $.each($('input:checkbox'),function(){
+                if(this.checked){
+                    list.push(Number($(this).val()))
+                }
+            });
+            console.log("list" , list)
+            tip(list)
 
-            var data = tableCheck.getData();
+        }
 
-            layer.confirm('确认要删除吗？' + data, function (index) {
+
+        function tip(list){
+            layer.confirm('确认要删除吗？'  +  list, function () {
                 //捉到所有被选中的，发异步进行删除
-                console.log(index);
+
+                $.ajax({
+                    url: "/back/schedule/delete",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        'jobIds': list.toString()
+                    },
+                    success: function (data) {
+                        if (data.code > 0) {
+                            layer.alert(data.msg, {
+                                        icon: 6
+                                    },
+                                    function () {
+                                        //关闭当前frame
+                                        xadmin.close();
+
+                                        // 可以对父窗口进行刷新
+                                        xadmin.father_reload();
+                                    });
+                        } else {
+                            layer.msg(data.msg)
+                        }
+                    }
+                })
                 layer.msg('删除成功', {icon: 1});
                 $(".layui-form-checked").not('.header').parents('tr').remove();
             });

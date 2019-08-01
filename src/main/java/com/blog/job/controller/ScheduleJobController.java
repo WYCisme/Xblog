@@ -11,22 +11,30 @@ package com.blog.job.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blog.common.annotation.SysLog;
-import com.blog.common.utils.ValidatorUtils;
 import com.blog.job.entity.ScheduleJob;
 import com.blog.job.service.IScheduleJobService;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
+import com.mchange.lang.LongUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.xpath.operations.Mod;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.HttpServletBean;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 定时任务
@@ -44,7 +52,7 @@ public class ScheduleJobController {
 	 * 定时任务列表
 	 */
 	@RequestMapping("/list")
-//	@RequiresPermissions("sys:schedule:list")
+//	@RequiresPermissions("back:schedule:list")
 	public ModelAndView list(@RequestParam(defaultValue = "0") Integer page ,@RequestParam(defaultValue = "10") Integer limit){
         IPage<ScheduleJob> pages = scheduleJobService.page(new Page<>(page, limit));
         ModelAndView modelAndView = new ModelAndView("/back/schedule/schedule-list");
@@ -56,7 +64,7 @@ public class ScheduleJobController {
 	 * 定时任务信息
 	 */
 	@RequestMapping("/info/{jobId}")
-	@RequiresPermissions("sys:schedule:info")
+	@RequiresPermissions("back:schedule:info")
 	public R info(@PathVariable("jobId") Long jobId){
 		ScheduleJob schedule = scheduleJobService.getById(jobId);
 		
@@ -68,7 +76,7 @@ public class ScheduleJobController {
      *
      * @return
      */
-	@RequestMapping("/to/save")
+	@GetMapping("/to/save")
 	public String toSave(){
 	    return "/back/schedule/schedule-save";
     }
@@ -78,19 +86,17 @@ public class ScheduleJobController {
 	 */
 	@SysLog("保存定时任务")
 	@PostMapping("/save")
-//	@RequiresPermissions("sys:schedule:save")
-	public @ResponseBody R save(@RequestBody ScheduleJob scheduleJob,
+//	@RequiresPermissions("back:schedule:save")
+	public @ResponseBody R save(ScheduleJob scheduleJob,
         BindingResult bindingResult){
-
         if (bindingResult.hasErrors()) {
             log.error(" [ 修改用户 ] 参数不正确 , adminForm ={} ", scheduleJob);
-            return R.error(bindingResult.getFieldError().toString());
+            return R.error("保存失败!" + bindingResult.toString());
         }
         scheduleJob.setStatus(1);
         scheduleJob.setCreateTime(new Date());
 
 		scheduleJobService.save(scheduleJob);
-
 		return R.ok("添加成功");
 	}
 
@@ -112,17 +118,24 @@ public class ScheduleJobController {
 	 */
 	@SysLog("修改定时任务")
 	@PostMapping("/update")
-//	@RequiresPermissions("sys:schedule:update")
-	public R update(@ModelAttribute @Valid ScheduleJob scheduleJob,
+//	@RequiresPermissions("back:schedule:update")
+	public @ResponseBody R update(@ModelAttribute @Valid ScheduleJob scheduleJob,
         BindingResult bindingResult){
 
+
+	    System.out.println(bindingResult.toString());
         if (bindingResult.hasErrors()) {
             log.error(" [ 修改用户 ] 参数不正确 , adminForm ={} ", scheduleJob);
-            return R.error(bindingResult.getFieldError().toString());
+            return R.error(bindingResult.toString());
         }
-        scheduleJob.setStatus(1);
-				
-		scheduleJobService.update(scheduleJob);
+
+        ScheduleJob scheduleJobDB = scheduleJobService.getById(scheduleJob.getId());
+        scheduleJobDB.setBeanName(scheduleJob.getBeanName());
+        scheduleJobDB.setCronExpression(scheduleJob.getCronExpression());
+        scheduleJobDB.setParams(scheduleJob.getParams());
+        scheduleJobDB.setRemark(scheduleJob.getRemark());
+
+		scheduleJobService.update(scheduleJobDB);
 		
 		return R.ok();
 	}
@@ -131,10 +144,10 @@ public class ScheduleJobController {
 	 * 删除定时任务
 	 */
 	@SysLog("删除定时任务")
-	@RequestMapping("/delete")
-//	@RequiresPermissions("sys:schedule:delete")
-	public R delete(@RequestBody Long[] jobIds){
-		scheduleJobService.deleteBatch(jobIds);
+	@PostMapping("/delete")
+//	@RequiresPermissions("back:schedule:delete")
+	public R delete(Long[] jobIds){
+		scheduleJobService.deleteBatch(null);
 		
 		return R.ok();
 	}
@@ -144,7 +157,7 @@ public class ScheduleJobController {
 	 */
 	@SysLog("立即执行任务")
 	@RequestMapping("/run")
-//	@RequiresPermissions("sys:schedule:run")
+//	@RequiresPermissions("back:schedule:run")
 	public R run(@RequestBody Long[] jobIds){
 		scheduleJobService.run(jobIds);
 		
@@ -156,7 +169,7 @@ public class ScheduleJobController {
 	 */
 	@SysLog("暂停定时任务")
 	@RequestMapping("/pause")
-//	@RequiresPermissions("sys:schedule:pause")
+//	@RequiresPermissions("back:schedule:pause")
 	public R pause(@RequestBody Long[] jobIds){
 		scheduleJobService.pause(jobIds);
 		
@@ -168,7 +181,7 @@ public class ScheduleJobController {
 	 */
 	@SysLog("恢复定时任务")
 	@RequestMapping("/resume")
-//	@RequiresPermissions("sys:schedule:resume")
+//	@RequiresPermissions("back:schedule:resume")
 	public R resume(@RequestBody Long[] jobIds){
 		scheduleJobService.resume(jobIds);
 		

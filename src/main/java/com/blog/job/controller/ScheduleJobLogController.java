@@ -10,7 +10,7 @@ package com.blog.job.controller;
 
 import com.blog.job.entity.ScheduleJobLog;
 import com.blog.job.service.IScheduleJobLogService;
-import com.blog.model.vo.R;
+import com.blog.model.bean.R;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -79,13 +79,13 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, Sched
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-    public void deleteBatch(Long[] jobIds) {
+    public void deleteBatch(List<Long> jobIds) {
     	for(Long jobId : jobIds){
     		ScheduleUtils.deleteScheduleJob(scheduler, jobId);
     	}
     	
     	//删除数据
-    	this.removeByIds(Arrays.asList(jobIds));
+    	this.removeByIds(jobIds);
 	}
 
 	@Override

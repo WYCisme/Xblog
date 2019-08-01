@@ -11,6 +11,8 @@ package com.blog.job.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.blog.job.entity.ScheduleJob;
 
+import java.util.List;
+
 /**
  * 定时任务
  *
@@ -31,7 +33,7 @@ public interface IScheduleJobService extends IService<ScheduleJob> {
 	/**
 	 * 批量删除定时任务
 	 */
-	void deleteBatch(Long[] jobIds);
+	void deleteBatch(List<Long> jobIds);
 	
 	/**
 	 * 批量更新定时任务状态

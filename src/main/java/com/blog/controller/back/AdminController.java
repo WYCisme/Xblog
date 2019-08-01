@@ -34,15 +34,6 @@ public class AdminController extends BaseController {
     @Autowired
     private AdminService adminService;
 
-    /**
-     * 用户操作首页
-     *
-     * @return
-     */
-    @RequestMapping("/index")
-    public String index() {
-        return "back/admin/listAdmin";
-    }
 
     /**
      * 查询数据
@@ -52,15 +43,19 @@ public class AdminController extends BaseController {
      * @param admin
      * @return
      */
-    @RequiresPermissions("admin:list")
-    @RequestMapping(value = "/listAdmin")
-    public @ResponseBody R listAdmin(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
+//    @RequiresPermissions("admin:list")
+    @RequestMapping(value = "/list")
+    public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
         defaultValue = "10") Integer limit, @ModelAttribute Admin admin) {
+        ModelAndView modelAndView = new ModelAndView("/back/admin/list");
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(Admin::getUsername, admin.getUsername());
         queryWrapper.lambda().eq(Admin::getNickname, admin.getNickname());
         IPage<Admin> pages = admin.selectPage(new Page<>(page, limit), queryWrapper);
-        return R.page(pages);
+        modelAndView.addObject("pages",pages);
+
+        return modelAndView;
+
     }
 
     /**
@@ -70,8 +65,8 @@ public class AdminController extends BaseController {
      * @param modelAndView
      * @return
      */
-    @RequiresPermissions("admin:del")
-    @RequestMapping(value = "{ids}/removeAdmin")
+//    @RequiresPermissions("admin:del")
+    @RequestMapping(value = "{ids}/delete")
     public @ResponseBody R removeAdmin(@PathVariable("ids") String ids, ModelAndView modelAndView) {
         String[] idArray = ids.split(",");
         boolean flag = true;

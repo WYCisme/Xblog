@@ -4,7 +4,7 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form" action="/back/schedule/update" method="post">
+        <form class="layui-form">
             <input type="hidden" value="${scheduleJob.id}" name="id" />
             <div class="layui-form-item">
                 <label for="beanName" class="layui-form-label">
@@ -61,14 +61,29 @@
             //监听提交
             form.on('submit(update)',
                     function (data) {
+                        $.ajax({
+                            url: "/back/schedule/update",
+                            type: "POST",
+                            dataType: "json",
+                            data: data.field,
+                            success: function (data) {
+                                if (data.code > 0) {
+                                    layer.alert(data.msg, {
+                                                icon: 6
+                                            },
+                                            function () {
+                                                //关闭当前frame
+                                                xadmin.close();
 
-                        //关闭当前frame
-                        xadmin.close();
-
-                        // 可以对父窗口进行刷新
-                        xadmin.father_reload();
-                        3
-                        return true;
+                                                // 可以对父窗口进行刷新
+                                                xadmin.father_reload();
+                                            });
+                                } else {
+                                    layer.msg(data.msg)
+                                }
+                            }
+                        })
+                        return false;
                     });
 
         });

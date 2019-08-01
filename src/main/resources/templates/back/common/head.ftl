@@ -19,5 +19,17 @@
     <script>
         // 是否开启刷新记忆tab功能
         // var is_remember = false;
+        //JavaScript代码区域
+        layui.use(['element','layer'], function () {
+            var element = layui.element;
+            var layer = layui.layer;
+
+            var message = "${message!''}";
+            if(message != ""){
+                layer.msg(message);
+            }
+
+
+        });
     </script>
 </head>
