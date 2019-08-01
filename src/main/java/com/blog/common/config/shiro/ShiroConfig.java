@@ -37,6 +37,11 @@ import com.blog.common.config.shiro.MyShiroRealm;
 @Slf4j
 public class ShiroConfig {
 
+    /**
+     * shiro session
+     *
+     * @return
+     */
     @Bean("sessionManager")
     public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
@@ -45,6 +50,14 @@ public class ShiroConfig {
         return sessionManager;
     }
 
+
+    /**
+     * shiro 管理器
+     *
+     * @param myShiroRealm
+     * @param sessionManager
+     * @return
+     */
     @Bean("securityManager")
     public SecurityManager securityManager(MyShiroRealm myShiroRealm, SessionManager sessionManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -55,7 +68,7 @@ public class ShiroConfig {
     }
 
     /**
-     * shiro 加密
+     * shiro身份认证
      *
      * @param credentialsMatcher
      * @return
@@ -69,6 +82,7 @@ public class ShiroConfig {
 
     /**
      * shiro 加密
+     * 指定算法与加密格式
      * 
      * @return
      */
@@ -149,16 +163,5 @@ public class ShiroConfig {
         advisor.setSecurityManager(securityManager);
         return advisor;
     }
-
-    /*
-     * shiro缓存管理器;
-     * 需要注入对应的其它的实体类中-->安全管理器：securityManager可见securityManager是整个shiro的核心；
-     */
-    // @Bean
-    // public EhCacheManager ehCacheManager() {
-    // EhCacheManager cacheManager = new EhCacheManager();
-    // cacheManager.setCacheManagerConfigFile("classpath:ehcache.xml");
-    // return cacheManager;
-    // }
 
 }

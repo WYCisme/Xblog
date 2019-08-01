@@ -11,12 +11,14 @@ package com.blog.job.utils;
 import com.blog.exception.RestException;
 import com.blog.job.entity.ScheduleJob;
 import com.blog.model.enums.ScheduleStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 
 /**
  * 定时任务工具类
  *
  */
+@Slf4j
 public final class ScheduleUtils {
 
     private final static String JOB_NAME = "TASK_";
@@ -87,7 +89,11 @@ public final class ScheduleUtils {
             		.withMisfireHandlingInstructionDoNothing();
 
             CronTrigger trigger = getCronTrigger(scheduler, scheduleJob.getId());
-            
+
+            if(trigger == null){
+                log.error(" 此定时为null :  {} " , scheduleJob.getId());
+                return ;
+            }
             //按新的cronExpression表达式重新构建trigger
             trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
             

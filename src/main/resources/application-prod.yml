@@ -2,10 +2,10 @@ spring:
 
   devtools:
     restart:
-      enabled: false
+      enabled: true
 
   freemarker:
-    cache: true # 是否启用缓存
+    cache: false # 是否启用缓存
 
   datasource:
     name: test

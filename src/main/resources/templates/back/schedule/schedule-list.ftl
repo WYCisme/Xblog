@@ -20,9 +20,11 @@
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-body ">
-                            <form class="layui-form layui-col-space5" action="/back/schedule/list" method="get">
+                            <form class="layui-form layui-col-space5" action="/back/schedule/list" method="get" id="showPage">
+                                <input type="hidden" id="page" name="page" value="${(pages.current)!1}">
+                                <input type="hidden" id="size" name="size" value="${(pages.size)!10}">
                                 <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" name="beanName" value="${ beanName!''}" placeholder="请输入任务名称" autocomplete="off"
+                                    <input type="text" name="beanName" value="${ (scheduleJob.beanName)!''}" placeholder="请输入任务名称" autocomplete="off"
                                            class="layui-input">
                                 </div>
                                 <div class="layui-inline layui-show-xs-block">
@@ -83,7 +85,7 @@
                             </table>
                         </div>
                         <div class="layui-card-body ">
-                            <@pg.page _url='/back/schedule/list' _data=pages _params='' />
+                            <@pg.page _data=pages _pageFun='showPage' />
                         </div>
                     </div>
                 </div>
@@ -96,23 +98,19 @@
             var form = layui.form;
             $ = layui.jquery;
 
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#start' //指定元素
-            });
+            form.on('submit(sreach)',function (data) {
+                console.log("data",data)
+                return true;
+            })
 
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#end' //指定元素
-            });
         });
 
         /*用户-删除*/
         function member_del(obj, id) {
-            tip([id])
+            tip([id], obj)
         }
 
-
+        /* 删除全部 */
         function delAll(argument) {
             let list = []
             $.each($('input:checkbox'),function(){
@@ -120,13 +118,16 @@
                     list.push(Number($(this).val()))
                 }
             });
-            console.log("list" , list)
             tip(list)
-
         }
 
+        function showPage(page,size) {
+            $("#page").val(page)
+            $("#size").val(size)
+            $("#showPage").submit();
+        }
 
-        function tip(list){
+        function tip(list, obj){
             layer.confirm('确认要删除吗？'  +  list, function () {
                 //捉到所有被选中的，发异步进行删除
 
@@ -135,7 +136,7 @@
                     type: "post",
                     dataType: "json",
                     data: {
-                        'jobIds': list.toString()
+                        'ids': list.toString()
                     },
                     success: function (data) {
                         if (data.code > 0) {
@@ -155,7 +156,12 @@
                     }
                 })
                 layer.msg('删除成功', {icon: 1});
-                $(".layui-form-checked").not('.header').parents('tr').remove();
+                if(obj){
+                    $(obj).parents("tr").remove();
+                }
+                else{
+                    $(".layui-form-checked").not('.header').parents('tr').remove();
+                }
             });
         }
     </script>
