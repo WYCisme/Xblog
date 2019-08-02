@@ -128,6 +128,7 @@ public class ShiroConfig {
 
         // 未授权界面; AuthenticatingFilter
         shiroFilter.setUnauthorizedUrl("redirect:/home/index");
+        shiroFilter.setLoginUrl("redirect:/back/login");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 
         return shiroFilter;

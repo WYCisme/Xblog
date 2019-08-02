@@ -9,6 +9,7 @@ import com.blog.model.form.AdminForm;
 import com.blog.model.bean.R;
 import com.blog.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,22 @@ import javax.validation.Valid;
 @Controller
 @Slf4j
 @RequestMapping("/back/admin")
-public class AdminController extends BaseController {
+public class AdminController extends BaseController
+{
 
     @Autowired
     private AdminService adminService;
 
+    /**
+     * 进入首页
+     *
+     * @return
+     */
+    @GetMapping("/index")
+    public String index()
+    {
+        return "/back/admin/admin-list";
+    }
 
     /**
      * 查询数据
@@ -43,18 +55,24 @@ public class AdminController extends BaseController {
      * @param admin
      * @return
      */
-//    @RequiresPermissions("admin:list")
+    //    @RequiresPermissions("admin:list")
     @RequestMapping(value = "/list")
-    public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
-        defaultValue = "10") Integer limit, @ModelAttribute Admin admin) {
-        ModelAndView modelAndView = new ModelAndView("/back/admin/list");
+    public @ResponseBody
+    R list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+        @RequestParam(defaultValue = "10") Integer limit, @ModelAttribute Admin admin)
+    {
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(Admin::getUsername, admin.getUsername());
-        queryWrapper.lambda().eq(Admin::getNickname, admin.getNickname());
+        if (StringUtils.isNotBlank(admin.getUsername()))
+        {
+            queryWrapper.lambda().like(Admin::getUsername, admin.getUsername());
+        }
+        if (StringUtils.isNotBlank(admin.getNickname()))
+        {
+            queryWrapper.lambda().eq(Admin::getNickname, admin.getNickname());
+        }
         IPage<Admin> pages = admin.selectPage(new Page<>(page, limit), queryWrapper);
-        modelAndView.addObject("pages",pages);
 
-        return modelAndView;
+        return R.page(pages);
 
     }
 
@@ -65,18 +83,23 @@ public class AdminController extends BaseController {
      * @param modelAndView
      * @return
      */
-//    @RequiresPermissions("admin:del")
+    //    @RequiresPermissions("admin:del")
     @RequestMapping(value = "{ids}/delete")
-    public @ResponseBody R removeAdmin(@PathVariable("ids") String ids, ModelAndView modelAndView) {
+    public @ResponseBody
+    R delete(@PathVariable("ids") String ids, ModelAndView modelAndView)
+    {
         String[] idArray = ids.split(",");
         boolean flag = true;
-        for (String s : idArray) {
+        for (String s : idArray)
+        {
             R result = adminService.deleteAdminById(NumberUtils.toLong(s));
-            if (result.getCode() <= 0) {
+            if (result.getCode() <= 0)
+            {
                 flag = false;
             }
         }
-        if (flag) {
+        if (flag)
+        {
             return R.ok("删除成功");
         }
         return R.error("删除失败!");
@@ -87,12 +110,13 @@ public class AdminController extends BaseController {
      *
      * @return
      */
-    @RequiresPermissions("admin:edit")
-    @GetMapping("{id}/toEditAdmin")
-    public ModelAndView toEditAdmin(@PathVariable("id") Long id, ModelAndView modelAndView) {
+    //    @RequiresPermissions("admin:edit")
+    @GetMapping("{id}/to/edit")
+    public ModelAndView toEdit(@PathVariable("id") Long id, ModelAndView modelAndView)
+    {
         Admin admin = adminService.getById(id);
         modelAndView.addObject("admin", admin);
-        modelAndView.setViewName("back/admin/toEditAdmin");
+        modelAndView.setViewName("back/admin/admin-edit");
         return modelAndView;
     }
 
@@ -106,18 +130,20 @@ public class AdminController extends BaseController {
      * @param redirectAttributes
      * @return
      */
-    @RequiresPermissions("admin:edit")
-    @RequestMapping(value = "/editAdmin")
+    //    @RequiresPermissions("admin:edit")
+    @RequestMapping(value = "/edit")
     public ModelAndView editAdmin(String flag, @ModelAttribute @Valid AdminForm adminForm, ModelAndView modelAndView,
-        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
+        BindingResult bindingResult, RedirectAttributes redirectAttributes)
+    {
+        if (bindingResult.hasErrors())
+        {
             log.error(" [ 修改用户 ] 参数不正确 , adminForm ={} ", adminForm);
-            modelAndView.setViewName("forward:/back/admin/toAddAdmin");
-            modelAndView.addObject("message","参数不正确");
+            modelAndView.setViewName("forward:/back/admin/to/save");
+            modelAndView.addObject("message", "参数不正确");
             return modelAndView;
         }
         R result = adminService.updateAdmin(adminForm);
-        modelAndView.setViewName("forward:/back/admin/index");
+        modelAndView.setViewName("forward:/back/admin/list");
 
         return modelAndView;
     }
@@ -127,10 +153,11 @@ public class AdminController extends BaseController {
      *
      * @return
      */
-    @RequiresPermissions("admin:add")
-    @GetMapping("/toAddAdmin")
-    public ModelAndView toAddAdmin() {
-        return new ModelAndView("back/admin/toAddAdmin");
+    //    @RequiresPermissions("admin:add")
+    @GetMapping("/to/add")
+    public ModelAndView toAdd()
+    {
+        return new ModelAndView("back/admin/to/add");
     }
 
     /**
@@ -142,18 +169,20 @@ public class AdminController extends BaseController {
      * @param redirectAttributes
      * @return
      */
-    @RequiresPermissions("admin:add")
-    @PostMapping(value = "/addAdmin")
+    //    @RequiresPermissions("admin:add")
+    @PostMapping(value = "/add")
     public ModelAndView addAdmin(@ModelAttribute @Valid AdminForm adminForm, ModelAndView modelAndView,
-        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
+        BindingResult bindingResult, RedirectAttributes redirectAttributes)
+    {
+        if (bindingResult.hasErrors())
+        {
             log.error(" [ 添加用户 ] 参数不正确 , adminForm ={} ", adminForm);
-            modelAndView.setViewName("forward:/back/admin/toAddAdmin");
-            modelAndView.addObject("message","参数不正确");
+            modelAndView.setViewName("forward:/back/admin/to/add");
+            modelAndView.addObject("message", "参数不正确");
             return modelAndView;
         }
         R result = adminService.addAdmin(adminForm);
-        modelAndView.setViewName("forward:/back/admin/index");
+        modelAndView.setViewName("forward:/back/admin/list");
         modelAndView.addObject("message", result.getMsg());
         return modelAndView;
     }

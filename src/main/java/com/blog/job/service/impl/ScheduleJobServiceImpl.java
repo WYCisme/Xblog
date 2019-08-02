@@ -35,30 +35,30 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, Sched
 	/**
 	 * 项目启动时，初始化定时器
 	 */
-	@PostConstruct
-	public void init(){
-		List<ScheduleJob> scheduleJobList = this.list();
-		for(ScheduleJob scheduleJob : scheduleJobList){
-			CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getId());
-            //如果不存在，则创建
-            try
-            {
-                if(cronTrigger == null) {
-                    ScheduleUtils.createScheduleJob(scheduler, scheduleJob);
-                }else {
-                    ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
-                }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            finally
-            {
-
-            }
-        }
-	}
+//	@PostConstruct
+//	public void init(){
+//		List<ScheduleJob> scheduleJobList = this.list();
+//		for(ScheduleJob scheduleJob : scheduleJobList){
+//			CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getId());
+//            //如果不存在，则创建
+//            try
+//            {
+//                if(cronTrigger == null) {
+//                    ScheduleUtils.createScheduleJob(scheduler, scheduleJob);
+//                }else {
+//                    ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
+//                }
+//            }
+//            catch (Exception e)
+//            {
+//                e.printStackTrace();
+//            }
+//            finally
+//            {
+//
+//            }
+//        }
+//	}
 
 
 	@Override

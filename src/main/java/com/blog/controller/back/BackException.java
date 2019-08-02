@@ -20,7 +20,7 @@ public class BackException extends BaseController {
 
     @ExceptionHandler(UnauthorizedException.class)
     public String handleShiroException(Exception ex) {
-        return "redirect:/back/error";
+        return "redirect:"+AppConstants.LOGIN;
     }
 
     @ExceptionHandler(AuthorizationException.class)
