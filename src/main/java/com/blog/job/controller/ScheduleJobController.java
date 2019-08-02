@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -104,7 +105,7 @@ public class ScheduleJobController {
             return R.error("保存失败!" + bindingResult.toString());
         }
         scheduleJob.setStatus(1);
-        scheduleJob.setCreateTime(new Date());
+        scheduleJob.setCreateDate(LocalDateTime.now());
 
         scheduleJobService.save(scheduleJob);
         return R.ok("添加成功");

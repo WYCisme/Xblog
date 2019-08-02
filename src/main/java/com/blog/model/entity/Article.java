@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.blog.common.constants.AppConstants;
 import com.blog.common.utils.EntityUtils;
@@ -76,32 +77,16 @@ public class Article extends Model<Article> {
      */
     private Integer status;
 
-    /**
-     * 浏览量
-     */
-    private Long viewCount;
-
-    /**
-     * 浏览量
-     */
-    private Long upCount;
-
-    /**
-     * 点赞数
-     */
-    private Long downCount;
 
     /**
      * 创建时间
      */
-    @DateTimeFormat(pattern = AppConstants.DATE_FORMAT)
     private LocalDateTime createDate;
 
     /**
      * 更新时间
      */
-    @DateTimeFormat(pattern = AppConstants.DATE_FORMAT)
-    private LocalDateTime updateTime;
+    private LocalDateTime updateDate;
 
     /**
      * 图片集

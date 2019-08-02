@@ -1,6 +1,7 @@
 package com.blog.model.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -44,10 +45,10 @@ public class Admin extends Model<Admin> {
     private Integer status;
 
     /** 创建时间 **/
-    private Date createDate;
+    private LocalDateTime createDate;
 
     /** 更新时间 **/
-    private Date updateTime;
+    private LocalDateTime updateDate;
 
     /** 提交凭证**/
     private String submitToken;

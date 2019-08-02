@@ -8,22 +8,21 @@ import com.blog.common.utils.StrUtil;
 import com.blog.model.converter.ArticleConverter;
 import com.blog.model.entity.Article;
 import com.blog.mapper.ArticleMapper;
+import com.blog.model.entity.ArticleDetail;
 import com.blog.model.entity.ArticleLabel;
 import com.blog.model.form.ArticleForm;
 import com.blog.model.dto.ArticleDTO;
 import com.blog.model.vo.ArticleVO;
 import com.blog.model.bean.R;
-import com.blog.service.ArticleLabelService;
-import com.blog.service.ArticleService;
+import com.blog.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.blog.service.ChannelService;
-import com.blog.service.LabelService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +46,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     protected ArticleLabelService articleLabelService;
     @Autowired
     protected ArticleMapper articleMapper;
+
+    @Autowired
+    protected ArticleDetailService articleDetailService;
 
     @Override
     @Transactional
@@ -75,7 +77,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         articleForm.setId(article.getId());
         article = ArticleConverter.form2aritcle(articleForm, article);
-        article.setUpdateTime(LocalDateTime.now());
+        article.setUpdateDate(LocalDateTime.now());
         article.setLabels(articleForm.getLabels());
         article.setChannel(articleForm.getChannel());
         article.setImages(StrUtil.findImageByContent(articleForm.getContent()));
@@ -114,7 +116,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             return R.error("文章不存在!");
         }
         article = ArticleConverter.dto2article(articleDTO, article);
-        article.setUpdateTime(LocalDateTime.now());
+        article.setUpdateDate(LocalDateTime.now());
         article.setImages(StrUtil.findImageByContent(articleDTO.getContent()));
         article.setIntro(StrUtil.findIntro(articleDTO.getContent()));
         boolean flag = this.updateById(article);
@@ -144,7 +146,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 新增文章
         Article article = ArticleConverter.form2aritcle(articleForm);
         article.setCreateDate(LocalDateTime.now());
-        article.setUpdateTime(null);
+        article.setUpdateDate(null);
         article.setSalt(RandomStringUtils.randomAlphanumeric(16));
         article.setSubmitToken(EncryptUtil.getInstance().encodeAes(article.getSalt(), SystemConstants.DESKEY));
         article.setLabels(articleForm.getLabels());
@@ -171,7 +173,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         // 新增文章
         Article article = ArticleConverter.dto2article(articleDTO);
         article.setCreateDate(LocalDateTime.now());
-        article.setUpdateTime(null);
+        article.setUpdateDate(null);
         article.setSalt(RandomStringUtils.randomAlphanumeric(16));
         article.setSubmitToken(EncryptUtil.getInstance().encodeAes(article.getSalt(), SystemConstants.DESKEY));
         article.setImages(StrUtil.findImageByContent(articleDTO.getContent()));
@@ -180,6 +182,13 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         if (!flag) {
             return R.error();
         }
+
+        // 新增文章详细
+        R r = articleDetailService.save(article.getId());
+        if (!r.isOk()) {
+            return R.error("新增文章详细失败!");
+        }
+
         return R.ok("发布文章成功!", article.getSubmitToken());
     }
 
@@ -200,37 +209,5 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleMapper.getOne(id);
     }
 
-    @Override
-    public R updateArticleViewCount(List<Long> ids) {
-        if(ids == null || ids.isEmpty()){
-            return R.error("IDS为空!");
-        }
 
-        int row =  articleMapper.updateArticleViewCount(ids);
-        if(row <= 0){
-            return R.error("更新文章浏览量失败");
-        }
-
-        return R.ok("成功!");
-    }
-
-    @Override
-    public R updateArticleUpCount(List<Long> ids) {
-        int row =  articleMapper.updateArticleUpCount(ids);
-        if(row <= 0){
-            return R.error("更新点赞失败");
-        }
-
-        return R.ok("成功!");
-    }
-
-    @Override
-    public R updateArticleDownCount(List<Long> ids) {
-        int row =  articleMapper.updateArticleDownCount(ids);
-        if(row <= 0){
-            return R.error("更新踩失败");
-        }
-
-        return R.ok("成功!");
-    }
 }

@@ -14,7 +14,7 @@
                             </#list>
                              </a></span>
                     </#if>
-                <p class="blogtext">${article.content?html} </p>
+                <p class="blogtext">${(article.intro)!''} </p>
                 <div class="bloginfo">
                     <ul>
                         <li class="author"><a href="">${article.adminName}</a></li>

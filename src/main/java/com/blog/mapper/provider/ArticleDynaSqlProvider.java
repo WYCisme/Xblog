@@ -19,9 +19,10 @@ public class ArticleDynaSqlProvider {
         String sql = new SQL() {
             {
                 SELECT(
-                    "   a.id , a.title ,a.admin_id , admin.username as adminName , a.channel , a.labels , a.content , a.status, a.view_count , a.up_count  ,a.down_count , a.create_date , a.update_time ,a.images ");
+                    "   a.id , a.title ,a.admin_id , a.intro, admin.username as adminName , a.channel , a.labels , a.content , a.status, ad.view_count , ad.up_count  ,ad.down_count , a.create_date , a.update_date ,a.images ");
                 FROM(" article a ");
                 LEFT_OUTER_JOIN(" admin admin on a.admin_id = admin.id  ");
+                LEFT_OUTER_JOIN(" article_detail ad on ad.article_id = a.id ");
 
                 if (params.get("articleVO") != null) {
                     ArticleVO articleVO = (ArticleVO)params.get("articleVO");
@@ -51,6 +52,7 @@ public class ArticleDynaSqlProvider {
                 SELECT(" count(1) ");
                 FROM(" article a ");
                 LEFT_OUTER_JOIN(" admin admin on a.admin_id = admin.id  ");
+                LEFT_OUTER_JOIN(" article_detail ad on ad.article_id = a.id ");
 
                 if (params.get("articleVO") != null) {
                     ArticleVO articleVO = (ArticleVO)params.get("articleVO");

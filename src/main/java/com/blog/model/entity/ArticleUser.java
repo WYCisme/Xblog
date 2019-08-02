@@ -5,24 +5,22 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
-import java.util.Date;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 系统设置表
+ * 
  * </p>
  *
  * @author zhengxin
- * @since 2019-03-29
+ * @since 2019-08-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SystemSetting extends Model<SystemSetting> {
+public class ArticleUser extends Model<ArticleUser> {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,24 +28,14 @@ public class SystemSetting extends Model<SystemSetting> {
     private Long id;
 
     /**
-     * 键
+     * 用户ID 
      */
-    private String key;
+    private Long userId;
 
     /**
-     * 值
+     * IP
      */
-    private String value;
-
-    /**
-     * 描述
-     */
-    private String description;
-
-    /**
-     * 备注
-     */
-    private String remark;
+    private String ip;
 
     /**
      * 创建时间
@@ -57,7 +45,7 @@ public class SystemSetting extends Model<SystemSetting> {
     /**
      * 更新时间
      */
-    private LocalDateTime updateTime;
+    private LocalDateTime updateDate;
 
 
     @Override

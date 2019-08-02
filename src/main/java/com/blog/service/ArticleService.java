@@ -70,28 +70,5 @@ public interface ArticleService extends IService<Article> {
     ArticleVO findById(Long id);
 
 
-    /**
-     * 浏览量
-     *
-     * @param ids
-     * @return
-     */
-    R updateArticleViewCount(List<Long> ids);
 
-
-    /**
-     * 点赞数
-     *
-     * @param ids
-     * @return
-     */
-    R updateArticleUpCount(List<Long> ids);
-
-    /**
-     * 踩人数
-     *
-     * @param ids
-     * @return
-     */
-    R updateArticleDownCount(List<Long> ids);
 }

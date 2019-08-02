@@ -155,10 +155,27 @@ public class R<T> {
         return r;
     }
 
-    //构造函数
+    /**
+     * 构造函数
+     *
+     * @param code
+     * @param msg
+     */
     public R(int code ,String msg){
         this.code = code;
         this.msg = msg;
+    }
+
+    /**
+     * 是否成功
+     *
+     * @return
+     */
+    public boolean isOk(){
+        if(this.code > 0){
+            return true;
+        }
+        return false;
     }
 
     public R(){}

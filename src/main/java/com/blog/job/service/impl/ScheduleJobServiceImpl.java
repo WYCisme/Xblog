@@ -21,13 +21,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, ScheduleJob> implements IScheduleJobService
 {
 
-	@Autowired
+	@Resource
     private Scheduler scheduler;
 	
 	/**
@@ -62,7 +64,7 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, Sched
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void saveJob(ScheduleJob scheduleJob) {
-		scheduleJob.setCreateTime(new Date());
+		scheduleJob.setCreateDate(LocalDateTime.now());
 		scheduleJob.setStatus(ScheduleStatus.NORMAL.getValue());
         this.save(scheduleJob);
         

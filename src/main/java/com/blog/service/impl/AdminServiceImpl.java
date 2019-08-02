@@ -13,6 +13,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -56,7 +57,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public R addAdmin(AdminForm adminForm) {
         Admin admin = AdminConverter.form2admin(adminForm);
         admin.setStatus(1);
-        admin.setCreateDate(new Date());
+        admin.setCreateDate(LocalDateTime.now());
         admin.setSalt(RandomStringUtils.randomAlphanumeric(16));
         admin.setSubmitToken(EncryptUtil.getInstance().encodeAes(admin.getSalt() , SystemConstants.DESKEY));
         int row = adminMapper.insert(admin);

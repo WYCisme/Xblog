@@ -41,19 +41,4 @@ public class ArticleServiceImplTest extends BaseUtil {
         
     }
 
-
-    @Test
-    public void updateArticleViewCount(){
-        R r  = articleService.updateArticleViewCount(Arrays.asList(24L,25L));
-        Assert.assertEquals(r.getCode(),1);
-
-    }
-
-    @Test
-    public void test(){
-        List<ArticleVO> list = articleMapper.test(new Page<>(1,10) , Wrappers.<ArticleVO>lambdaQuery().eq(ArticleVO::getTitle, "python"));
-        System.out.println(list == null);
-    }
-
-
 }

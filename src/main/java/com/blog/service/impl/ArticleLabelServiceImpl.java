@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +43,7 @@ public class ArticleLabelServiceImpl extends ServiceImpl<ArticleLabelMapper, Art
                 }
             }else{
                 articleLabel.setArticleId(articleId);
-                articleLabel.setUpdateTime(LocalDateTime.now());
+                articleLabel.setUpdateDate(LocalDateTime.now());
                 flag = this.updateById(articleLabel);
                 if (!flag) {
                     return R.error();

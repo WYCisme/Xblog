@@ -2,6 +2,7 @@ package com.blog.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -52,7 +53,7 @@ public class User extends Model<User> {
     /**
      * 更新时间
      */
-    private LocalDateTime updateTime;
+    private LocalDateTime updateDate;
 
 
     @Override

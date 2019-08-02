@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -61,10 +62,15 @@ public class ScheduleJobLog extends Model<ScheduleJobLog>
 	 * 耗时(单位：毫秒)
 	 */
 	private Integer times;
-	
-	/**
-	 * 创建时间
-	 */
-	private Date createTime;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createDate;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateDate;
 	
 }

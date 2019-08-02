@@ -33,30 +33,9 @@ public interface ArticleMapper extends BaseMapper<Article> {
     @SelectProvider(type = ArticleDynaSqlProvider.class,method = "count")
     Long count(Map<String,Object> params);
 
-    @Select({ " select  a.id , a.title ,a.admin_id , admin.username as adminName , a.channel , a.labels , a.content , a.status, a.view_count , a.up_count  ,a.down_count , a.create_date , a.update_time ,a.images ",
-            " from article a left join  admin admin on a.admin_id = admin.id  ",
-        "  ${ew.customSqlSegment} "
-    })
-    List<ArticleVO> test(Page<ArticleVO> page,@Param(Constants.WRAPPER) Wrapper wrapper);
 
-
-    @Select(" select  a.id , a.title ,a.admin_id , admin.username as adminName , a.channel , a.labels , a.content , a.status, a.view_count , a.up_count  ,a.down_count , a.create_date , a.update_time ,a.images "
-        + " from article a left join admin admin  on a.admin_id = admin.id where a.id = #{id} ")
+    @Select(" select  a.id , a.title ,a.admin_id , admin.username as adminName , a.channel , a.labels , a.content , a.status, ad.view_count , ad.up_count  ,ad.down_count , a.create_date , a.update_date ,a.images "
+        + " from article a left join admin admin  on a.admin_id = admin.id left join article_detail ad on ad.article_id = a.id where a.id = #{id} ")
     ArticleVO getOne(@Param("id") Long id);
-
-    @Update({"<script>", "  update article set view_count = view_count + 1 where id in  ",
-        " <foreach collection='ids' item='item' index='index' open='(' separator=',' close=')' > ", "#{item}",
-        "</foreach> ", "</script>"})
-    int updateArticleViewCount(@Param("ids") List<Long> ids);
-
-    @Update({"<script>", "  update article set up_count = up_count + 1 where id in  ",
-            " <foreach collection='ids' item='item' index='index' open='(' separator=',' close=')' > ", "#{item}",
-            "</foreach> ", "</script>"})
-    int updateArticleUpCount(@Param("ids") List<Long> ids);
-
-    @Update({"<script>", "  update article set down_count = down_count + 1 where id in  ",
-            " <foreach collection='ids' item='item' index='index' open='(' separator=',' close=')' > ", "#{item}",
-            "</foreach> ", "</script>"})
-    int updateArticleDownCount(@Param("ids") List<Long> ids);
 
 }

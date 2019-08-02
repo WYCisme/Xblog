@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blog.common.constants.CacheKey;
 import com.blog.common.utils.CacheUtil;
 import com.blog.controller.base.BaseController;
+import com.blog.model.entity.ArticleDetail;
 import com.blog.model.entity.Label;
 import com.blog.model.vo.ArticleVO;
 import com.blog.model.bean.R;
+import com.blog.service.ArticleDetailService;
 import com.blog.service.ArticleService;
 import com.blog.service.LabelService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,9 @@ public class HomeController extends BaseController {
     @Autowired
     private LabelService labelService;
 
+    @Autowired
+    protected ArticleDetailService articleDetailService;
+
     /**
      * 首页
      *
@@ -53,15 +58,12 @@ public class HomeController extends BaseController {
         ArticleVO articleVO = new ArticleVO();
         articleVO.setTitle(title);
         articleVO.setLabels(labels);
-        articleVO.setSort(" a.update_time desc ");
+        articleVO.setSort(" a.update_date desc ");
 
         Page<ArticleVO> pages =
                 articleService.pageFrontArticleVO(new Page<ArticleVO>(page, size), articleVO);
 
         modelAndView.addObject("pages", R.page2(pages));
-//        //添加浏览记录
-//        List<Long> articleIds = pages.getRecords().stream().map(ArticleVO::getId).collect(Collectors.toList());
-//        articleService.updateArticleViewCount(articleIds);
         //条件
         modelAndView.addObject("title",title);
         modelAndView.addObject("labels",labels);
@@ -83,7 +85,7 @@ public class HomeController extends BaseController {
         ArticleVO articleVO = new ArticleVO();
         articleVO.setTitle(title);
         articleVO.setLabels(labels);
-        articleVO.setSort(" a.view_count desc ");
+        articleVO.setSort(" ad.view_count desc ");
         Page<ArticleVO> pages =
             articleService.pageFrontArticleVO(new Page<ArticleVO>(page, size), articleVO);
         ModelAndView modelAndView = new ModelAndView();
@@ -92,7 +94,7 @@ public class HomeController extends BaseController {
         modelAndView.addObject("currPage", page);
         //添加浏览记录
         List<Long> articleIds = pages.getRecords().stream().map(ArticleVO::getId).collect(Collectors.toList());
-        articleService.updateArticleViewCount(articleIds);
+        articleDetailService.updateViewCount(articleIds);
         //条件
         modelAndView.addObject("title",title);
         modelAndView.addObject("labels",labels);
@@ -108,7 +110,7 @@ public class HomeController extends BaseController {
     @RequestMapping("/isView")
     public ModelAndView isView() {
         ArticleVO articleVO = new ArticleVO();
-        articleVO.setSort(" a.view_count desc ");
+        articleVO.setSort(" ad.view_count desc ");
         IPage<ArticleVO> pages = articleService.pageFrontArticleVO(new Page<ArticleVO>(1, 5), articleVO);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("front/home/isView");
@@ -126,7 +128,7 @@ public class HomeController extends BaseController {
     @RequestMapping("/isUp")
     public ModelAndView isUp() {
         ArticleVO articleVO = new ArticleVO();
-        articleVO.setSort("  a.up_count desc ");
+        articleVO.setSort("  ad.up_count desc ");
         IPage<ArticleVO> pages = articleService.pageFrontArticleVO(new Page<ArticleVO>(1, 5), articleVO);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("front/home/isUp");
@@ -198,7 +200,7 @@ public class HomeController extends BaseController {
         modelAndView.setViewName("front/home/detail");
 
         //添加浏览记录
-        articleService.updateArticleViewCount(Arrays.asList(id));
+        articleDetailService.updateViewCount(Arrays.asList(id));
         return modelAndView;
     }
 
@@ -212,6 +214,6 @@ public class HomeController extends BaseController {
     @RequestMapping("/upCount")
     public @ResponseBody R upCount(@RequestParam(value = "id",defaultValue = "0") Long id){
         //添加点赞记录
-        return articleService.updateArticleUpCount(Arrays.asList(id));
+        return articleDetailService.updateUpCount(Arrays.asList(id));
     }
 }

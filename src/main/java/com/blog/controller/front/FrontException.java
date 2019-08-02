@@ -1,4 +1,4 @@
-package com.blog.controller.back;
+package com.blog.controller.front;
 
 import com.blog.common.constants.AppConstants;
 import com.blog.controller.base.BaseController;
@@ -15,22 +15,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @date 2019/3/29
  */
 @Slf4j
-@ControllerAdvice
-public class NoPermissionException extends BaseController {
+@ControllerAdvice(basePackages = "com.blog.controller.front" )
+public class FrontException extends BaseController {
 
     @ExceptionHandler(UnauthorizedException.class)
     public String handleShiroException(Exception ex) {
-        return "redirect:/back/error";
-    }
-
-    @ExceptionHandler(AuthorizationException.class)
-    public String AuthorizationException(Exception ex) {
-       return "redirect:"+AppConstants.LOGIN;
+        return "redirect:/front/error";
     }
 
     @ExceptionHandler(Exception.class)
     public String exception(Exception ex){
         log.error("异常",ex);
-        return "redirect:/back/error";
+        return "redirect:/front/error";
     }
 }

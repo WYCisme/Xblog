@@ -2,6 +2,7 @@ package com.blog.model.vo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -86,12 +87,18 @@ public class ArticleVO {
     /**
      * 创建时间
      */
-    private LocalDateTime createDate;
+    private Date createDate;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updateTime;
+    private Date updateDate;
+
+    /**
+     * 文章简介
+     */
+    private String intro;
+
 
     /**
      * 图片集

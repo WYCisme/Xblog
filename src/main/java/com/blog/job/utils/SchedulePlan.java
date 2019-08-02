@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -42,7 +43,7 @@ public class SchedulePlan extends QuartzJobBean
         log.setJobId(scheduleJob.getId());
         log.setBeanName(scheduleJob.getBeanName());
         log.setParams(scheduleJob.getParams());
-        log.setCreateTime(new Date());
+        log.setCreateDate(LocalDateTime.now());
         
         //任务开始时间
         long startTime = System.currentTimeMillis();

@@ -18,6 +18,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -67,9 +68,16 @@ public class ScheduleJob extends Model<ScheduleJob>
 	 */
 	private String remark;
 
-	/**
-	 * 创建时间
-	 */
-	private Date createTime;
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createDate;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateDate;
+
+
 
 }
