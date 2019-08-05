@@ -1,7 +1,6 @@
 <!doctype html>
 <html class="x-admin-sm">
-
-<#include 'head.ftl' />
+    <#include 'head.ftl' />
     <body class="index">
         <!-- 顶部开始 -->
         <#include 'top.ftl' />
@@ -15,9 +14,5 @@
             <!-- 右侧主体结束 -->
         <!-- 中部结束 -->
     </body>
-
-
-
-
 <#include 'footer.ftl' />
 </html>

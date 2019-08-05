@@ -1,75 +1,67 @@
-<!DOCTYPE html>
-<html class="x-admin-sm">
-<#include '../common/head.ftl'/>
-<body>
-<div class="x-nav">
-            <span class="layui-breadcrumb">
-                <a href="#">首页</a>
-                <a href="#">管理员</a>
-                <a>
-                    <cite>管理员列表</cite></a>
-            </span>
-    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
-        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
-    </a>
-</div>
+<#assign childrenTitle='管理员管理' />
+<#assign childrenSubTitle='管理员列表' />
+<@override name="middle">
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
                     <form class="layui-form layui-col-space5">
-                        <input type="text" name="username" value="${admin.username!''}" placeholder="请输入用户名" autocomplete="off" class="layui-input"></div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                        <input type="text" name="username" value="${(admin.username)!''}" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn" lay-submit="" lay-filter="admin-sreach">
                                 <i class="layui-icon">&#xe615;</i></button>
                         </div>
                     </form>
                 </div>
                 <div class="layui-card-body ">
-                    <table class="layui-table" lay-data="{url:'/back/admin/list',page:true,toolbar: '#toolbarAdmin',id:'admin'}" lay-filter="admin">
-                        <thead>
-                        <tr>
-                            <th lay-data="{type:'checkbox'}">ID</th>
-                            <th lay-data="{field:'id', width:80, sort: true}">ID</th>
-                            <th lay-data="{field:'username', width:120, sort: true, edit: 'text'}">用户名</th>
-                            <th lay-data="{field:'nickname', width:120, sort: true, edit: 'text'}">用户昵称</th>
-                     <#--       <th lay-data="{field:'email', edit: 'text', minWidth: 150}">邮箱</th>
-                            <th lay-data="{field:'status', width:80,templet: '#switchTpl'}">状态</th>
-                            <th lay-data="{field:'city', edit: 'text', minWidth: 100}">城市</th>
-                            <th lay-data="{field:'experience', sort: true, edit: 'text'}">积分</th>
-                            <th lay-data="{field:'dw_xinzhi',templet: function(d){ return d.dw_xinzhi.titel;}}">学校</th></tr>-->
-                        </thead>
-                    </table>
+
+                    <table class="layui-hide" id="admin-table"></table>
+
+
                 </div>
             </div>
         </div>
     </div>
 </div>
-</body>
-<script type="text/html" id="toolbarAdmin">
-    <div class = "layui-btn-container" >
+</@override>
+<@extends name="/back/common/children-context.ftl"></@extends>
+
+<script type="text/html" id="admin-table-bar">
+  <#--  <div class = "layui-btn-container" >
         <button class = "layui-btn layui-btn-sm" lay-event = "getCheckData" > 获取选中行数据 </button>
         <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button >
         <button class = "layui-btn layui-btn-sm" lay-event = "isAll" > 验证是否全选</button>
-    </div >
+    </div >-->
 </script>
 <script type="text/html" id="switchTpl">
-    <!-- 这里的checked的状态只是演示 -->
-    <input type = "checkbox" name = "sex" value = "{{d.id}}" lay-skin = "switch"lay-text = "启用|关闭" lay-filter = "statusObj" {{ d.id == 10003 ? 'checked': ''}} >
+    <input type="checkbox" name="lock" value="{{d.id}}" title="锁定" lay-filter="lockDemo" {{ d.id == 10006 ? 'checked' : '' }}>
 </script>
-<script>layui.use('laydate',
-    function() {
-        var laydate = layui.laydate;
-
-
-    });</script>
 <script>layui.use('table',
     function() {
         var table = layui.table;
 
+
+        table.render({
+            elem: '#admin-table'
+            ,url:'/back/admin/list'
+            ,toolbar: '#admin-table-bar'
+            ,cols: [[
+                {type: 'checkbox' }
+                ,{field:'id', title: 'ID', sort: true}
+                ,{field:'username', title: '用户名'}
+                ,{field:'nickname', title: '用户昵称', sort: true}
+                ,{field:'status', title: '状态', templet: '#switchTpl'}
+                ,{field:'createDate', title: '创建时间'}
+                ,{field:'updateDate', title: '更新时间'}
+            ]]
+            ,page:true
+        });
+
         //监听单元格编辑
-        table.on('edit(admin)',
+        table.on('edit(admin-table)',
             function(obj) {
                 var value = obj.value //得到修改后的值
                     ,
@@ -80,7 +72,7 @@
             });
 
         //头工具栏事件
-        table.on('toolbar(admin)',
+        table.on('toolbar(admin-table)',
             function(obj) {
                 var checkStatus = table.checkStatus(obj.config.id);
                 switch (obj.event) {
@@ -99,4 +91,3 @@
             });
     });</script>
 
-</html>

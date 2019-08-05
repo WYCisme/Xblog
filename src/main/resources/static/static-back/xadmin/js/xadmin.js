@@ -100,6 +100,27 @@
 	       layer.full(index); 
 	    }
 	}
+
+
+    /**
+     * 回调消息处理
+     */
+	Xadmin.prototype.msg = function(data){
+        if (data.code > 0) {
+            layer.alert(data.msg, {
+                    icon: 6
+                },
+                function () {
+                    //关闭当前frame
+                    Xadmin.prototype.close();
+
+                    // 可以对父窗口进行刷新
+                    Xadmin.prototype.father_reload();
+                });
+        } else {
+            layer.msg(data.msg)
+        }
+    }
 	/**
 	 * [close 关闭弹出层]
 	 * @return {[type]} [description]

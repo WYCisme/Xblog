@@ -102,7 +102,7 @@
                 });
 
                 //监听提交
-                form.on('submit(add)',
+                form.on('submit(save)',
                 function(data) {
                     return ;
                     console.log(data);

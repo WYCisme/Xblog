@@ -130,7 +130,7 @@ public class LabelController {
      *
      * @return
      */
-    @RequiresPermissions("label:add")
+    @RequiresPermissions("label:save")
     @GetMapping("/toAddLabel")
     public ModelAndView toAddLabel() {
         return new ModelAndView("back/label/toAddLabel");
@@ -143,7 +143,7 @@ public class LabelController {
      * @param modelAndView
      * @return
      */
-    @RequiresPermissions("label:add")
+    @RequiresPermissions("label:save")
     @PostMapping(value = "/addLabel")
     public ModelAndView addLabel(@ModelAttribute @Valid LabelForm labelForm, ModelAndView modelAndView,
         BindingResult bindingResult, RedirectAttributes redirectAttributes) {

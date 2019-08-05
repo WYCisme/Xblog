@@ -20,7 +20,7 @@ import java.util.List;
 public class CodeGenerator {
 
 //    public static String[] include = {"article", "article_label", "label", "permission", "role","role_permission","admin_role","system_setting","visitor"};
-    public static String[] include = {"article_detail","article_user"};
+    public static String[] include = {"role_type"};
 
 
 

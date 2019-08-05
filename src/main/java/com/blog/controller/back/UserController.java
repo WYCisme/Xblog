@@ -145,7 +145,7 @@ public class UserController {
      *
      * @return
      */
-    @RequiresPermissions("user:add")
+    @RequiresPermissions("user:save")
     @GetMapping("/toAddUser")
     public ModelAndView toAddUser() {
         return new ModelAndView("back/user/toAddUser");
@@ -160,7 +160,7 @@ public class UserController {
      * @param redirectAttributes
      * @return
      */
-    @RequiresPermissions("user:add")
+    @RequiresPermissions("user:save")
     @PostMapping(value = "/addUser")
     public ModelAndView addUser(@ModelAttribute @Valid UserForm userForm, ModelAndView modelAndView,
         BindingResult bindingResult, RedirectAttributes redirectAttributes) {

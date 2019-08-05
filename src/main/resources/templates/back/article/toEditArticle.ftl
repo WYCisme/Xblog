@@ -58,7 +58,7 @@
                 });
 
                 //监听提交
-                form.on('submit(add)',
+                form.on('submit(save)',
                 function(data) {
                     console.log(data);
                     //发异步，把数据提交给php

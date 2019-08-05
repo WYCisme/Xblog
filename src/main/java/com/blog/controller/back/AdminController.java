@@ -153,11 +153,11 @@ public class AdminController extends BaseController
      *
      * @return
      */
-    //    @RequiresPermissions("admin:add")
+    //    @RequiresPermissions("admin:save")
     @GetMapping("/to/add")
     public ModelAndView toAdd()
     {
-        return new ModelAndView("back/admin/to/add");
+        return new ModelAndView("back/admin/to/save");
     }
 
     /**
@@ -169,7 +169,7 @@ public class AdminController extends BaseController
      * @param redirectAttributes
      * @return
      */
-    //    @RequiresPermissions("admin:add")
+    //    @RequiresPermissions("admin:save")
     @PostMapping(value = "/add")
     public ModelAndView addAdmin(@ModelAttribute @Valid AdminForm adminForm, ModelAndView modelAndView,
         BindingResult bindingResult, RedirectAttributes redirectAttributes)
@@ -177,7 +177,7 @@ public class AdminController extends BaseController
         if (bindingResult.hasErrors())
         {
             log.error(" [ 添加用户 ] 参数不正确 , adminForm ={} ", adminForm);
-            modelAndView.setViewName("forward:/back/admin/to/add");
+            modelAndView.setViewName("forward:/back/admin/to/save");
             modelAndView.addObject("message", "参数不正确");
             return modelAndView;
         }

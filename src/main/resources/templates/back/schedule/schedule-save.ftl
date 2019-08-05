@@ -60,7 +60,7 @@
 
 
             //监听提交
-            form.on('submit(add)',
+            form.on('submit(save)',
                     function (data) {
                         $.ajax({
                             url: "/back/schedule/save",
@@ -68,20 +68,7 @@
                             dataType: "json",
                             data: data.field,
                             success: function (data) {
-                                if (data.code > 0) {
-                                    layer.alert(data.msg, {
-                                                icon: 6
-                                            },
-                                            function () {
-                                                //关闭当前frame
-                                                xadmin.close();
-
-                                                // 可以对父窗口进行刷新
-                                                xadmin.father_reload();
-                                            });
-                                } else {
-                                    layer.msg(data.msg)
-                                }
+                                xadmin.msg(data)
                             }
                         })
                         return false;

@@ -39,6 +39,6 @@ public interface RoleService extends IService<Role> {
      * @param roleForm
      * @return
      */
-    R add(RoleForm roleForm);
+    R save(RoleForm roleForm);
 
 }

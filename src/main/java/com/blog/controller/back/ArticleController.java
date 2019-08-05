@@ -129,7 +129,7 @@ public class ArticleController extends BaseController {
      *
      * @return
      */
-//    @RequiresPermissions("article:add")
+//    @RequiresPermissions("article:save")
     @GetMapping("/toAddArticle")
     public String toAddArticle(Model model) {
         model.addAttribute("em",ArticleStatus.values());
@@ -146,7 +146,7 @@ public class ArticleController extends BaseController {
      * @param redirectAttributes
      * @return
      */
-//    @RequiresPermissions("article:add")
+//    @RequiresPermissions("article:save")
     @PostMapping(value = "/add")
     public ModelAndView addArticle(@ModelAttribute @Valid ArticleForm articleForm,
          BindingResult bindingResult, RedirectAttributes redirectAttributes) {

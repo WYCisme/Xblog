@@ -356,7 +356,7 @@ body{
 }
 
 .layui-table td, .layui-table th{
-    min-width: 80px;
+   /* min-width: 80px;*/
 }
 
 table th, table td {

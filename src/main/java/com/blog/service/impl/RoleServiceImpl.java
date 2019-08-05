@@ -79,7 +79,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public R add(RoleForm roleForm) {
+    public R save(RoleForm roleForm) {
         Role role = RoleForm2Role.converter(roleForm);
         int row = roleMapper.insert(role);
         if (row <= 0) {
