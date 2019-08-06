@@ -122,7 +122,7 @@
         }
 
         function showPage(page,size) {
-            $("#page").val(page)
+            $("#permissionVOPage").val(page)
             $("#size").val(size)
             $("#showPage").submit();
         }

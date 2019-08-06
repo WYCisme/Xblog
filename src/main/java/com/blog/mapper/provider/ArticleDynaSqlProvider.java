@@ -40,8 +40,8 @@ public class ArticleDynaSqlProvider {
                 }
             }
         }.toString();
-        if (params.get("page") != null && params.get("size") != null) {
-            sql += " limit #{page} , #{size} ";
+        if (params.get("permissionVOPage") != null && params.get("size") != null) {
+            sql += " limit #{permissionVOPage} , #{size} ";
         }
         return sql;
     }

@@ -1,7 +1,7 @@
 package com.blog.service.impl;
 
 import com.blog.model.bean.R;
-import com.blog.model.converter.RolePermissionForm2RolePermission;
+import com.blog.model.converter.RolePermissionFormConverter;
 import com.blog.model.entity.RolePermission;
 import com.blog.mapper.RolePermissionMapper;
 import com.blog.model.form.RolePermissionForm;
@@ -37,7 +37,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     @Override
     public R update(RolePermissionForm rolePermissionForm) {
         RolePermission rolePermission = rolePermissionMapper.selectById(rolePermissionForm.getId());
-        rolePermission = RolePermissionForm2RolePermission.converter(rolePermissionForm);
+        rolePermission = RolePermissionFormConverter.formToObj(rolePermissionForm);
         int row = rolePermissionMapper.updateById(rolePermission);
         if (row > 0) {
             return R.ok("修改成功");
@@ -47,7 +47,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
 
     @Override
     public R add(RolePermissionForm rolePermissionForm) {
-        RolePermission rolePermission = RolePermissionForm2RolePermission.converter(rolePermissionForm);
+        RolePermission rolePermission = RolePermissionFormConverter.formToObj(rolePermissionForm);
         int row = rolePermissionMapper.insert(rolePermission);
         if (row > 0) {
             return R.ok("添加成功");

@@ -11,15 +11,16 @@ import org.springframework.beans.BeanUtils;
  * @author zx
  * @date 2019/4/24
  */
-public class RolePermissionForm2RolePermission {
+public class RolePermissionFormConverter
+{
 
-    public static RolePermission converter(RolePermissionForm rolePermissionForm) {
+    public static RolePermission formToObj(RolePermissionForm rolePermissionForm) {
         RolePermission rolePermission = new RolePermission();
         BeanUtils.copyProperties(rolePermissionForm, rolePermission);
         return rolePermission;
     }
 
-    public static RolePermission converter(RolePermissionForm rolePermissionForm, RolePermission rolePermission) {
+    public static RolePermission formToObj(RolePermissionForm rolePermissionForm, RolePermission rolePermission) {
         BeanUtils.copyProperties(rolePermissionForm, rolePermission);
         return rolePermission;
     }

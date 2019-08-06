@@ -121,6 +121,23 @@
             layer.msg(data.msg)
         }
     }
+
+    /**
+     * 回调消息处理,重新加载LIST
+     */
+	Xadmin.prototype.msg_flush = function(data){
+        if (data.code > 0) {
+            layer.alert(data.msg, {
+                    icon: 6
+                },
+                function () {
+                    //执行重载
+                    location.reload()
+                });
+        } else {
+            layer.msg(data.msg)
+        }
+    }
 	/**
 	 * [close 关闭弹出层]
 	 * @return {[type]} [description]

@@ -11,15 +11,16 @@ import org.springframework.beans.BeanUtils;
  * @author zx
  * @date 2019/4/24
  */
-public class PermissionForm2Permission {
+public class PermissionConverter
+{
 
-    public static Permission converter(PermissionForm permissionForm) {
+    public static Permission formToObj(PermissionForm permissionForm) {
         Permission permission = new Permission();
         BeanUtils.copyProperties(permissionForm, permission);
         return permission;
     }
 
-    public static Permission converter(PermissionForm permissionForm, Permission permission) {
+    public static Permission formToObj(PermissionForm permissionForm, Permission permission) {
         BeanUtils.copyProperties(permissionForm, permission);
         return permission;
     }

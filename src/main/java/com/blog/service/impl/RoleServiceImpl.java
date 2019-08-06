@@ -2,7 +2,7 @@ package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.model.bean.R;
-import com.blog.model.converter.RoleForm2Role;
+import com.blog.model.converter.RoleConverter;
 import com.blog.model.entity.Role;
 import com.blog.mapper.RoleMapper;
 import com.blog.model.entity.RolePermission;
@@ -57,7 +57,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public R update(RoleForm roleForm) {
         Role role = roleMapper.selectById(roleForm.getId());
-        role = RoleForm2Role.converter(roleForm);
+        role = RoleConverter.formToObj(roleForm);
         int row = roleMapper.updateById(role);
         if (row < 1) {
 
@@ -80,7 +80,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public R save(RoleForm roleForm) {
-        Role role = RoleForm2Role.converter(roleForm);
+        Role role = RoleConverter.formToObj(roleForm);
         int row = roleMapper.insert(role);
         if (row <= 0) {
 

@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class RoleType extends Model<RoleType> {
+public class PermissionType extends Model<PermissionType> {
 
     private static final long serialVersionUID = 1L;
 

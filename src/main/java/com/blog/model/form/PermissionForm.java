@@ -30,5 +30,6 @@ public class PermissionForm {
 
     private String description;
 
+    private Long permissionTypeId;
 
 }

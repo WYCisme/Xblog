@@ -10,15 +10,16 @@ import org.springframework.beans.BeanUtils;
  * @author zx
  * @date 2019/4/24
  */
-public class AdminRoleForm2AdminRole {
+public class AdminRoleConverter
+{
 
-    public static AdminRole converter(AdminRoleForm adminRoleForm) {
+    public static AdminRole formToObj(AdminRoleForm adminRoleForm) {
         AdminRole adminRole = new AdminRole();
         BeanUtils.copyProperties(adminRoleForm, adminRole);
         return adminRole;
     }
 
-    public static AdminRole converter(AdminRoleForm adminRoleForm, AdminRole adminRole) {
+    public static AdminRole formToObj(AdminRoleForm adminRoleForm, AdminRole adminRole) {
         BeanUtils.copyProperties(adminRoleForm, adminRole);
         return adminRole;
     }

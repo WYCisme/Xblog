@@ -1,12 +1,13 @@
-package com.blog.model.entity;
+package com.blog.model.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -19,7 +20,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class Permission extends Model<Permission> {
+public class PermissionVO extends Model<PermissionVO> {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,6 +34,8 @@ public class Permission extends Model<Permission> {
     private Boolean available;
 
     private Long permissionTypeId;
+
+    private String permissionTypeName;
 
     @Override
     protected Serializable pkVal() {

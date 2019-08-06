@@ -58,7 +58,7 @@ public class AdminController extends BaseController
     //    @RequiresPermissions("admin:list")
     @RequestMapping(value = "/list")
     public @ResponseBody
-    R list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+    R list(@RequestParam(value = "permissionVOPage", defaultValue = "1") Integer page,
         @RequestParam(defaultValue = "10") Integer limit, @ModelAttribute Admin admin)
     {
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();

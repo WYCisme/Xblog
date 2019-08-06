@@ -13,13 +13,13 @@ import com.blog.model.form.LabelForm;
  */
 public class LabelConverter {
 
-    public static Label form2label(LabelForm labelForm) {
+    public static Label formToObj(LabelForm labelForm) {
         Label label = new Label();
         BeanUtils.copyProperties(labelForm, label);
         return label;
     }
 
-    public static Label form2label(LabelForm labelForm, Label label) {
+    public static Label formToObj(LabelForm labelForm, Label label) {
         BeanUtils.copyProperties(labelForm, label);
         return label;
     }

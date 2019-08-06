@@ -14,36 +14,36 @@ import org.springframework.beans.BeanUtils;
  */
 public class ArticleConverter {
 
-    public static Article form2aritcle(ArticleForm articleForm) {
+    public static Article formToObj(ArticleForm articleForm) {
         Article article = new Article();
         BeanUtils.copyProperties(articleForm, article);
         return article;
     }
 
-    public static Article form2aritcle(ArticleForm articleForm, Article article) {
+    public static Article formToObj(ArticleForm articleForm, Article article) {
         BeanUtils.copyProperties(articleForm, article);
         article.setStatus(NumberUtils.toInt(articleForm.getStatus()));
         return article;
     }
 
-    public static ArticleForm dto2form(ArticleDTO articleDTO) {
+    public static ArticleForm dtoToForm(ArticleDTO articleDTO) {
         ArticleForm articleForm = new ArticleForm();
         BeanUtils.copyProperties(articleDTO, articleForm);
         return articleForm;
     }
 
-    public static Article dto2article(ArticleDTO articleDTO) {
+    public static Article dtoToObj(ArticleDTO articleDTO) {
         Article article = new Article();
         BeanUtils.copyProperties(articleDTO, article);
         return article;
     }
 
-    public static Article dto2article(ArticleDTO articleDTO, Article article) {
+    public static Article dtoToObj(ArticleDTO articleDTO, Article article) {
         BeanUtils.copyProperties(articleDTO, article);
         return article;
     }
 
-    public static ArticleDTO article2dto(Article article){
+    public static ArticleDTO objTodto(Article article){
         ArticleDTO articleDTO = new ArticleDTO();
         BeanUtils.copyProperties(article,articleDTO);
         return articleDTO;

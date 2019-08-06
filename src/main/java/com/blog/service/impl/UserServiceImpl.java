@@ -1,11 +1,10 @@
 package com.blog.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.blog.mapper.UserMapper;
 import com.blog.model.bean.R;
-import com.blog.model.converter.UserForm2User;
+import com.blog.model.converter.UserConverter;
 import com.blog.model.entity.User;
 import com.blog.model.form.UserForm;
 import com.blog.service.UserService;
@@ -40,7 +39,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public R updateUser(UserForm userForm) {
         User user = userMapper.selectById(userForm.getId());
-        user = UserForm2User.converter(userForm);
+        user = UserConverter.formToObj(userForm);
         int row = userMapper.updateById(user);
         if (row > 0) {
             return R.ok("修改成功");
@@ -50,7 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public R addUser(UserForm userForm) {
-        User user = UserForm2User.converter(userForm);
+        User user = UserConverter.formToObj(userForm);
         user.setCreateDate(LocalDateTime.now());
         user.setCount(0);
         int row = userMapper.insert(user);

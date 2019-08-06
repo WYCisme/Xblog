@@ -67,7 +67,7 @@ public class UserController {
      */
     @RequiresPermissions("user:list")
     @RequestMapping(value = "/listUser")
-    public @ResponseBody R listUser(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
+    public @ResponseBody R listUser(@RequestParam(value = "permissionVOPage", defaultValue = "1") Integer page, @RequestParam(
         defaultValue = "10") Integer limit, @ModelAttribute User user) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotBlank(user.getUsername())) {

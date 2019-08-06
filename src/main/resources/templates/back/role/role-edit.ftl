@@ -19,18 +19,20 @@
                 </label>
                 <table  class="layui-table layui-input-block">
                     <tbody>
-                    <tr>
-                        <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="father" title="用户管理">
-                        </td>
-                        <td>
-                            <div class="layui-input-block">
-                                  <#list permissions as p >
-                                      <input name="permissions"  <#if myPermissions?? && myPermissions?seq_contains(p.id)> checked </#if> lay-skin="primary" type="checkbox" title="${(p.description)!''}" value="${(p.id)!''}">
-                                  </#list>
-                            </div>
-                        </td>
-                    </tr>
+                       <#list permissionMap?values as value >
+                        <tr>
+                            <td>
+                                <input type="checkbox" onclick="select_all(${value[0].permissionTypeId})" lay-skin="primary" lay-filter="father" title="${value[0].permissionTypeName}">
+                            </td>
+                            <td>
+                                <div class="layui-input-block">
+                                      <#list value as p >
+                                          <input name="permissions" lay-filter="children"  <#if myPermissions?? && myPermissions?seq_contains(p.id)> checked </#if> lay-skin="primary" type="checkbox" title="${(p.description)!''}" value="${(p.id)!''}">
+                                      </#list>
+                                </div>
+                            </td>
+                        </tr>
+                       </#list>
                     </tbody>
                 </table>
             </div>
@@ -81,6 +83,22 @@
             }
         });
 
+        form.on('checkbox(children)', function(data){
+            var list = $(data.elem).siblings('input')
+            var isCheck = true;
+            $.each(list, function(i,e){
+                if(!$(e).prop("checked")){
+                    isCheck = false
+                }
+            });
+            if(isCheck){
+                $(data.elem).parent().parent().siblings('td').find('input').prop("checked", true);
+                form.render();
+            }else{
+                $(data.elem).parent().parent().siblings('td').find('input').prop("checked", false);
+                form.render();
+            }
+        });
 
     });
 </script>

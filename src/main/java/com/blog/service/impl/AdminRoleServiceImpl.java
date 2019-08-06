@@ -2,7 +2,7 @@ package com.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.model.bean.R;
-import com.blog.model.converter.AdminRoleForm2AdminRole;
+import com.blog.model.converter.AdminRoleConverter;
 import com.blog.model.entity.AdminRole;
 import com.blog.mapper.AdminRoleMapper;
 import com.blog.model.form.AdminRoleForm;
@@ -49,7 +49,7 @@ public class AdminRoleServiceImpl extends ServiceImpl<AdminRoleMapper, AdminRole
     @Override
     public R updateAdminRole(AdminRoleForm adminRoleForm) {
         AdminRole adminRole = adminRoleMapper.selectById(adminRoleForm.getId());
-        adminRole = AdminRoleForm2AdminRole.converter(adminRoleForm);
+        adminRole = AdminRoleConverter.formToObj(adminRoleForm);
         int row = adminRoleMapper.updateById(adminRole);
         if (row > 0) {
             return R.ok("修改成功");
@@ -59,7 +59,7 @@ public class AdminRoleServiceImpl extends ServiceImpl<AdminRoleMapper, AdminRole
 
     @Override
     public R addAdminRole(AdminRoleForm adminRoleForm) {
-        AdminRole adminRole = AdminRoleForm2AdminRole.converter(adminRoleForm);
+        AdminRole adminRole = AdminRoleConverter.formToObj(adminRoleForm);
         int row = adminRoleMapper.insert(adminRole);
         if (row > 0) {
             return R.ok("添加成功");

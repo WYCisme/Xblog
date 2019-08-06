@@ -42,7 +42,7 @@
         table.render({
             elem: '#role-table'
             ,url: '/back/role/list' //数据接口
-            ,title: '权限表'
+            ,title: '角色表'
             ,page: true //开启分页
             ,limit: 10
             ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档

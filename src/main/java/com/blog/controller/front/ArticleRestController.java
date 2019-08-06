@@ -77,13 +77,13 @@ public class ArticleRestController extends FrontBaseController {
         Article article = articleService.getOne(queryWrapper);
         if (article == null) {
             // 新增文章
-            ArticleForm articleForm = ArticleConverter.dto2form(articleDTO);
+            ArticleForm articleForm = ArticleConverter.dtoToForm(articleDTO);
             r = articleService.save(articleForm);
             articleDTO.setSubmitToken(r.getData()+"");
             r.setData(articleDTO);
         } else {
             // 修改
-            ArticleForm articleForm = ArticleConverter.dto2form(articleDTO);
+            ArticleForm articleForm = ArticleConverter.dtoToForm(articleDTO);
             r = articleService.updateById(articleForm);
         }
         r.setData(articleDTO);
@@ -113,7 +113,7 @@ public class ArticleRestController extends FrontBaseController {
         List<ArticleDTO> articleVOList = new ArrayList<>();
         if(page.getRecords().size() > 0){
             for (Article article : page.getRecords()) {
-                articleVOList.add(ArticleConverter.article2dto(article));
+                articleVOList.add(ArticleConverter.objTodto(article));
             }
         }
         return R.ok("查询成功!", articleVOList);

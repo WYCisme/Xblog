@@ -45,7 +45,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public R updateAdmin(AdminForm adminForm) {
         Admin admin = adminMapper.selectById(adminForm.getId());
-        admin = AdminConverter.form2admin(adminForm);
+        admin = AdminConverter.formToObj(adminForm);
         int row = adminMapper.update(admin,null);
         if(row > 0){
             return  R.ok("修改成功");
@@ -55,7 +55,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public R addAdmin(AdminForm adminForm) {
-        Admin admin = AdminConverter.form2admin(adminForm);
+        Admin admin = AdminConverter.formToObj(adminForm);
         admin.setStatus(1);
         admin.setCreateDate(LocalDateTime.now());
         admin.setSalt(RandomStringUtils.randomAlphanumeric(16));

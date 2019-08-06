@@ -1,9 +1,14 @@
 package com.blog.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blog.model.bean.R;
 import com.blog.model.entity.Permission;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.blog.model.form.PermissionForm;
+import com.blog.model.vo.PermissionVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -37,6 +42,15 @@ public interface PermissionService extends IService<Permission> {
      * @param permissionForm
      * @return
      */
-    R add(PermissionForm permissionForm);
+    R save(PermissionForm permissionForm);
 
+    /**
+     * 自定义翻页
+     *
+     * @param page
+     * @return
+     */
+    Page<PermissionVO> permissionVOPage(Page<PermissionVO> page, Wrapper<PermissionVO> queryWrapper);
+
+    List<PermissionVO> permissionVOList(Wrapper<PermissionVO> queryWrapper);
 }

@@ -8,7 +8,6 @@ import com.blog.common.utils.StrUtil;
 import com.blog.model.converter.ArticleConverter;
 import com.blog.model.entity.Article;
 import com.blog.mapper.ArticleMapper;
-import com.blog.model.entity.ArticleDetail;
 import com.blog.model.entity.ArticleLabel;
 import com.blog.model.form.ArticleForm;
 import com.blog.model.dto.ArticleDTO;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +74,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             return R.error("文章不存在!");
         }
         articleForm.setId(article.getId());
-        article = ArticleConverter.form2aritcle(articleForm, article);
+        article = ArticleConverter.formToObj(articleForm, article);
         article.setUpdateDate(LocalDateTime.now());
         article.setLabels(articleForm.getLabels());
         article.setChannel(articleForm.getChannel());
@@ -115,7 +113,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
             return R.error("文章不存在!");
         }
-        article = ArticleConverter.dto2article(articleDTO, article);
+        article = ArticleConverter.dtoToObj(articleDTO, article);
         article.setUpdateDate(LocalDateTime.now());
         article.setImages(StrUtil.findImageByContent(articleDTO.getContent()));
         article.setIntro(StrUtil.findIntro(articleDTO.getContent()));
@@ -144,7 +142,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         List<Long> tagIds = r1.getData();
         // 新增文章
-        Article article = ArticleConverter.form2aritcle(articleForm);
+        Article article = ArticleConverter.formToObj(articleForm);
         article.setCreateDate(LocalDateTime.now());
         article.setUpdateDate(null);
         article.setSalt(RandomStringUtils.randomAlphanumeric(16));
@@ -171,7 +169,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Transactional
     public R save(ArticleDTO articleDTO) {
         // 新增文章
-        Article article = ArticleConverter.dto2article(articleDTO);
+        Article article = ArticleConverter.dtoToObj(articleDTO);
         article.setCreateDate(LocalDateTime.now());
         article.setUpdateDate(null);
         article.setSalt(RandomStringUtils.randomAlphanumeric(16));

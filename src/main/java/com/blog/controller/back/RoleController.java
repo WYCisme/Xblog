@@ -9,6 +9,7 @@ import com.blog.model.entity.Permission;
 import com.blog.model.entity.Role;
 import com.blog.model.entity.RolePermission;
 import com.blog.model.form.RoleForm;
+import com.blog.model.vo.PermissionVO;
 import com.blog.service.PermissionService;
 import com.blog.service.RolePermissionService;
 import com.blog.service.RoleService;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -69,7 +71,7 @@ public class RoleController {
      */
 //    @RequiresPermissions("role:list")
     @RequestMapping(value = "/list")
-    public @ResponseBody R list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+    public @ResponseBody R list(@RequestParam(value = "permissionVOPage", defaultValue = "1") Integer page,
         @RequestParam(defaultValue = "10") Integer limit, @ModelAttribute Role role) {
         QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
         IPage<Role> pages = role.selectPage(new Page<>(page, limit), queryWrapper);
@@ -108,10 +110,13 @@ public class RoleController {
 //    @RequiresPermissions("role:edit")
     @GetMapping("{id}/to/edit")
     public ModelAndView toEdit(@PathVariable("id") Long id, ModelAndView modelAndView) {
+        //权限
+        List<PermissionVO> permissions = permissionService.permissionVOList(new QueryWrapper<>());
+        Map<Long,List<PermissionVO>> permissionMap = permissions.stream().collect(Collectors.groupingBy(PermissionVO::getPermissionTypeId));
+        modelAndView.addObject("permissionMap", permissionMap);
+
         Role role = roleService.getById(id);
         modelAndView.addObject("role", role);
-        List<Permission> permissions = permissionService.list();
-        modelAndView.addObject("permissions", permissions);
 
         QueryWrapper<RolePermission> rolePermissionQueryWrapper = new QueryWrapper<>();
         rolePermissionQueryWrapper.lambda().eq(RolePermission::getRoleId, id);
@@ -151,8 +156,11 @@ public class RoleController {
 //    @RequiresPermissions("role:save")
     @GetMapping("/to/save")
     public ModelAndView save(ModelAndView modelAndView) {
-        List<Permission> permissions = permissionService.list();
-        modelAndView.addObject("permissions", permissions);
+        //权限
+        List<PermissionVO> permissions = permissionService.permissionVOList(new QueryWrapper<>());
+        Map<Long,List<PermissionVO>> permissionMap = permissions.stream().collect(Collectors.groupingBy(PermissionVO::getPermissionTypeId));
+        modelAndView.addObject("permissionMap", permissionMap);
+
         modelAndView.setViewName("back/role/role-save");
 
         return modelAndView;

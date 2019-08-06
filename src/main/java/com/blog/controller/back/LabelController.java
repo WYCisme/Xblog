@@ -55,7 +55,7 @@ public class LabelController {
      */
     @RequiresPermissions("label:list")
     @RequestMapping(value = "/listLabel")
-    public @ResponseBody R listLabel(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
+    public @ResponseBody R listLabel(@RequestParam(value = "permissionVOPage", defaultValue = "1") Integer page, @RequestParam(
         defaultValue = "10") Integer limit, @ModelAttribute Label label) {
         QueryWrapper<Label> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(Label::getName, label.getName());

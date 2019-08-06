@@ -12,13 +12,13 @@ import org.springframework.beans.BeanUtils;
  */
 public class AdminConverter {
 
-    public static Admin form2admin(AdminForm userForm ){
+    public static Admin formToObj(AdminForm userForm ){
         Admin admin = new Admin();
         BeanUtils.copyProperties(userForm,admin);
         return admin;
     }
 
-    public static Admin form2admin(AdminForm userForm, Admin admin ){
+    public static Admin formToObj(AdminForm userForm, Admin admin ){
         BeanUtils.copyProperties(userForm,admin);
         return admin;
     }

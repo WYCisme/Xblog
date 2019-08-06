@@ -10,15 +10,16 @@ import org.springframework.beans.BeanUtils;
  * @author zx
  * @date 2019/4/24
  */
-public class UserForm2User {
+public class UserConverter
+{
 
-    public static User converter(UserForm userForm) {
+    public static User formToObj(UserForm userForm) {
         User user = new User();
         BeanUtils.copyProperties(userForm, user);
         return user;
     }
 
-    public static User converter(UserForm userForm, User user) {
+    public static User formToObj(UserForm userForm, User user) {
         BeanUtils.copyProperties(userForm, user);
         return user;
     }

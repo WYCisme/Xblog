@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,7 +50,7 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, Label> implements
 
     @Override
     public R updateLabel(LabelForm labelForm) {
-        Label label = LabelConverter.form2label(labelForm);
+        Label label = LabelConverter.formToObj(labelForm);
         label.setUpdateDate(LocalDateTime.now());
         boolean flag = super.updateById(label);
         if (flag) {
@@ -62,7 +61,7 @@ public class LabelServiceImpl extends ServiceImpl<LabelMapper, Label> implements
 
     @Override
     public R addLabel(LabelForm labelForm) {
-        Label label = LabelConverter.form2label(labelForm);
+        Label label = LabelConverter.formToObj(labelForm);
         label.setUpdateDate(LocalDateTime.now());
         label.setCreateDate(LocalDateTime.now());
         boolean flag = super.save(label);

@@ -52,7 +52,7 @@ public class ArticleController extends BaseController {
      */
 //    @RequiresPermissions("article:list")
     @GetMapping(value = "/list")
-    public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(
+    public ModelAndView list(@RequestParam(value = "permissionVOPage", defaultValue = "1") Integer page, @RequestParam(
         defaultValue = "10") Integer limit, @ModelAttribute Article article) {
         ModelAndView modelAndView = new ModelAndView("/back/article/article-list");
         QueryWrapper<Article> queryWrapper = new QueryWrapper<>();

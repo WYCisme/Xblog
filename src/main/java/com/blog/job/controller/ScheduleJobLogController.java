@@ -37,7 +37,7 @@ public class ScheduleJobLogController {
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:schedule:log")
 	public R list(@RequestParam Map<String, Object> params){
-//		Ipage page = scheduleJobLogService.queryPage(params);
+//		Ipage permissionVOPage = scheduleJobLogService.queryPage(params);
 		
 		return R.ok();
 	}

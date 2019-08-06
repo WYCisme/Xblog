@@ -1,6 +1,6 @@
 package com.blog.mapper;
 
-import com.blog.model.entity.RoleType;
+import com.blog.model.entity.PermissionType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @since 2019-08-05
  */
 @Repository
-public interface RoleTypeMapper extends BaseMapper<RoleType> {
+public interface PermissionTypeMapper extends BaseMapper<PermissionType> {
 
 }
