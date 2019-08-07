@@ -90,11 +90,12 @@
         });
 
         form.on('checkbox(children)', function(data){
-            var list = $(data.elem).siblings('input')
+            var list = $(data.elem).parent().find('input')
             var isCheck = true;
             $.each(list, function(i,e){
                 if(!$(e).prop("checked")){
                     isCheck = false
+                    return false;
                 }
             });
             if(isCheck){

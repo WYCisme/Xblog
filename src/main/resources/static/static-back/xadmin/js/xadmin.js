@@ -125,20 +125,19 @@
     /**
      * 回调消息处理,重新加载LIST
      */
-	Xadmin.prototype.msg_flush = function(data){
+	Xadmin.prototype.msg_call = function(data){
         if (data.code > 0) {
             layer.alert(data.msg, {
                     icon: 6
-                },
-                function () {
-                    //执行重载
-                    location.reload()
                 });
         } else {
             layer.msg(data.msg)
         }
     }
-	/**
+
+
+
+    /**
 	 * [close 关闭弹出层]
 	 * @return {[type]} [description]
 	 */
@@ -240,6 +239,33 @@ layui.use(['layer','element','jquery'],function() {
     element = layui.element;
     $ = layui.jquery;
 
+    //全局异常处理
+    $.ajaxSetup({
+        type: "POST",
+        complete: function(jqXHR, textStatus){
+            console.log(jqXHR)
+            switch (jqXHR.status){
+
+                case(500):
+                    layer.msg("服务器系统内部错误");
+                    break;
+                case(401):
+                    layer.alert("无权限执行此操作",function(){
+
+                    });
+                    break;
+                case(403):
+                    layer.msg("无权限执行此操作");
+                    break;
+                case(408):
+                    layer.msg("请求超时");
+                    break;
+                case(404):
+                    layer.msg(textStatus);
+                    break;
+            }
+        }
+    });
 
     // 打开页面初始
     xadmin.init();

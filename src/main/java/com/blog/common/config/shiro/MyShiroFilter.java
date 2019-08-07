@@ -71,7 +71,11 @@ public class MyShiroFilter extends AuthenticatingFilter {
             httpResponse.setHeader("Access-Control-Allow-Origin", WebUtils.getOrigin());
             // 令牌控制
             if (WebUtils.isAjax(httpServletRequest)) {
-                httpResponse.getWriter().write(R.error(org.apache.http.HttpStatus.SC_UNAUTHORIZED, "无效的令牌").toString());
+                httpResponse.getWriter().write(R.error(org.apache.http.HttpStatus.SC_UNAUTHORIZED, "no token").toString());
+                String path = httpServletRequest.getContextPath();
+                // ajax请求
+                httpResponse.setHeader("sessionstatus", "TIMEOUT");
+                httpResponse.setHeader("content_path", path + AppConstants.LOGIN);
             } else {
                 httpServletRequest.setAttribute("message", "请先登录在访问网站");
                 httpServletRequest.getRequestDispatcher(AppConstants.LOGIN).forward(httpServletRequest, httpResponse);

@@ -63,9 +63,9 @@
             , cols: [[ //表头
                 {type: 'checkbox'}
                 , {field: 'id', title: 'id', sort: true}
-                , {field: 'permission', title: '角色名'}
-                , {field: 'description', title: '角色备注'}
-                , {field: 'permissionTypeName', title: '角色分类'}
+                , {field: 'permission', title: '权限名',edit: 'text'}
+                , {field: 'description', title: '权限备注',edit: 'text'}
+                , {field: 'permissionTypeName', title: '权限分类'}
                 , {fixed: 'right', align: 'center', toolbar: '#permission-table-bar'}
             ]]
         });
@@ -89,7 +89,7 @@
                             type: 'post',
                             dataType: 'json',
                             success: function (dataObj) {
-                                xadmin.msg_flush(dataObj)
+                                xadmin.msg_call(dataObj)
                             }
                         });
                     }
@@ -111,7 +111,7 @@
                         type: 'post',
                         dataType: 'json',
                         success: function (dataObj) {
-                            xadmin.msg_flush(dataObj)
+                            xadmin.msg_call(dataObj)
                         }
                     });
                 });
@@ -123,18 +123,14 @@
             var value = obj.value //得到修改后的值
                     , data = obj.data //得到所在行所有键值
                     , field = obj.field; //得到字段
-
             //向服务端发送删除指令
             $.ajax({
                 url: '${request.contextPath}/back/permission/edit',
-                data: {
-                    id: data.id,
-                    name: value
-                },
+                data: data,
                 type: 'post',
                 dataType: 'json',
                 success: function (dataObj) {
-                    xadmin.msg_flush(dataObj)
+                    xadmin.msg_call(dataObj)
                 }
             });
         });
@@ -149,7 +145,7 @@
                 dataType: 'json',
                 data: field,
                 success: function (dataObj) {
-                    xadmin.msg_flush(dataObj.msg)
+                    xadmin.msg_call(dataObj.msg)
                 }
             });
 

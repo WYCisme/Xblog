@@ -50,7 +50,7 @@
             , cols: [[ //表头
                 {type: 'checkbox'}
                 , {field: 'id', title: 'id', sort: true}
-                , {field: 'name', title: '角色名'}
+                , {field: 'name', title: '权限分类名',edit: 'text'}
                 , {field: 'createDate', title: '创建时间'}
                 , {field: 'updateDate', title: '更新时间'}
                 , {fixed: 'right', align: 'center', toolbar: '#permission-type-table-bar'}
@@ -76,7 +76,7 @@
                             type: 'post',
                             dataType: 'json',
                             success: function (dataObj) {
-                                xadmin.msg_flush(dataObj)
+                                xadmin.msg_call(dataObj)
                             }
                         });
                     }
@@ -98,7 +98,7 @@
                         type: 'post',
                         dataType: 'json',
                         success: function (dataObj) {
-                            xadmin.msg_flush(dataObj.msg)
+                            xadmin.msg_call(dataObj)
                         }
                     });
                 });
@@ -110,18 +110,14 @@
             var value = obj.value //得到修改后的值
                     , data = obj.data //得到所在行所有键值
                     , field = obj.field; //得到字段
-
             //向服务端发送删除指令
             $.ajax({
                 url: '${request.contextPath}/back/permission-type/edit',
-                data: {
-                    id: data.id,
-                    name: value
-                },
+                data: data,
                 type: 'post',
                 dataType: 'json',
                 success: function (dataObj) {
-                    xadmin.msg_flush(dataObj.msg)
+                    xadmin.msg_call(dataObj)
                 }
             });
         });
@@ -130,14 +126,13 @@
         form.render(null, 'permission-type-table');
         form.on('submit(permission-type-save)', function (data) {
             var field = data.field;
-            console.log(data.field)
             $.ajax({
                 url: '${request.contextPath}/back/permission-type/save',
                 type: 'post',
                 dataType: 'json',
                 data: field,
                 success: function (dataObj) {
-                    xadmin.msg_flush(dataObj.msg)
+                    xadmin.msg_call(dataObj)
                 }
             });
 

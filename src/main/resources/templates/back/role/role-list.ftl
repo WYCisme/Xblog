@@ -60,8 +60,6 @@
         table.on('toolbar(role-table)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id)
                     ,data = checkStatus.data; //获取选中的数据
-
-            console.log(obj)
             switch(obj.event){
                 case 'add':
                     xadmin.open('添加','${request.contextPath}/back/role/to/save');
@@ -90,7 +88,7 @@
                             type:'post',
                             dataType:'json',
                             success:function(dataObj){
-                                xadmin.msg(data)
+                                xadmin.msg(dataObj)
                             }
                         });
                     }

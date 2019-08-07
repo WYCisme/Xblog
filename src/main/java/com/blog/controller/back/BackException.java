@@ -30,7 +30,7 @@ public class BackException extends BaseController {
 
     @ExceptionHandler(Exception.class)
     public String exception(Exception ex){
-        log.error("异常",ex);
+        log.error("全局异常",ex);
         return "redirect:/back/error";
     }
 }

@@ -87,7 +87,7 @@ public class RoleController {
      */
     @RequiresPermissions("role:del")
     @RequestMapping(value = "{ids}/del")
-    public @ResponseBody R del(@PathVariable("ids") String ids, ModelAndView modelAndView) {
+    public @ResponseBody R del(@PathVariable("ids") String ids) {
         String[] idArray = ids.split(",");
         boolean flag = true;
         for (String s : idArray) {

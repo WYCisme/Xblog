@@ -80,8 +80,9 @@ public class PermissionTypeController
     public @ResponseBody R del(@PathVariable("ids") String ids, ModelAndView modelAndView) {
         String[] idArray = ids.split(",");
         boolean flag = true;
+        R result = null;
         for (String s : idArray) {
-            R result = permissionTypeService.deleteById(NumberUtils.toLong(s));
+            result = permissionTypeService.deleteById(NumberUtils.toLong(s));
             if (result.getCode() <= 0) {
                 flag = false;
             }
@@ -89,7 +90,7 @@ public class PermissionTypeController
         if (flag) {
             return R.ok("删除成功");
         }
-        return R.error("删除失败!");
+        return result;
     }
 
     /**

@@ -22,7 +22,7 @@
                        <#list permissionMap?values as value >
                         <tr>
                             <td>
-                                <input type="checkbox" onclick="select_all(${value[0].permissionTypeId})" lay-skin="primary" lay-filter="father" title="${value[0].permissionTypeName}">
+                                <input type="checkbox" lay-skin="primary" lay-filter="father" title="${value[0].permissionTypeName}">
                             </td>
                             <td>
                                 <div class="layui-input-block">
@@ -60,11 +60,18 @@
 
         //监听提交
         form.on('submit(save)', function(data){
+            var field = data.field;
+            ids = []
+            $("input:checkbox[name='permissions']:checked").each(function() {
+                ids.push($(this).val())
+            });
+            field.permissions = ids.toString()
+
             $.ajax({
                 url: "/back/role/edit",
                 type: "POST",
                 dataType: "json",
-                data: data.field,
+                data: field,
                 success: function (data) {
                     xadmin.msg(data)
                 }
@@ -84,11 +91,12 @@
         });
 
         form.on('checkbox(children)', function(data){
-            var list = $(data.elem).siblings('input')
+            var list = $(data.elem).parent().find('input')
             var isCheck = true;
             $.each(list, function(i,e){
                 if(!$(e).prop("checked")){
                     isCheck = false
+                    return false;
                 }
             });
             if(isCheck){
@@ -100,7 +108,26 @@
             }
         });
 
+        //看father节点是否是选中的
+        $("input:checkbox[lay-filter='father']").each(function(i,e) {
+            var isCheck = true;
+            $.each($(e).parent().siblings('td').find('input'), function(i,obj){
+                if(!$(obj).prop("checked")){
+                    isCheck = false
+                }
+            });
+            if(isCheck){
+                $(e).prop("checked", true);
+                form.render();
+            }else{
+                $(e).attr("checked", false);
+                form.render();
+            }
+
+        });
     });
+
+
 </script>
 </body>
 </html>
