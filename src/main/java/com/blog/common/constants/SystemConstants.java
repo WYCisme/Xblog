@@ -25,7 +25,7 @@ public class SystemConstants {
 
     @Value("${spring.profiles.active}")
     public void setIsLocal(String active) {
-        if(active.equals("dev")){
+        if(active.equals("dev")|| active.equals("prod")){
             SystemConstants.ISLOCAL = true;
         }else{
             SystemConstants.ISLOCAL = false;

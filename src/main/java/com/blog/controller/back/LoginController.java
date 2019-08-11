@@ -46,7 +46,7 @@ public class LoginController  extends BaseController {
      */
     @RequestMapping(value = "/login")
     public String login(Model model) {
-        return "back/login/loginForm";
+        return "/back/login/login";
     }
 
     /**
@@ -66,7 +66,7 @@ public class LoginController  extends BaseController {
         R result = checkLogin(code);
         if (result.getCode() < 1) {
             modelAndView.addObject("message", result.getMsg());
-            modelAndView.setViewName("forward:/back/login");
+            modelAndView.setViewName("/back/login/login");
             return modelAndView;
         }
         // 1、获取Subject实例对象
@@ -92,7 +92,7 @@ public class LoginController  extends BaseController {
         } catch (AuthenticationException e) {
             modelAndView.addObject("message", "用户验证失败");
         }
-        modelAndView.setViewName("forward:/back/login");
+        modelAndView.setViewName("/back/login/login");
         return modelAndView;
     }
 
