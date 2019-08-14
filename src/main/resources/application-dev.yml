@@ -10,6 +10,7 @@ spring:
   datasource:
     name: test
     driver-class-name: com.mysql.jdbc.Driver
+    #driver-class-name: org.elasticsearch.xpack.sql.jdbc.jdbc.JdbcDriver
     username: root
     password: 123456
     url: jdbc:mysql://192.168.7.8/blog?characterEncoding=utf-8&useSSL=false&autoReconnect=true

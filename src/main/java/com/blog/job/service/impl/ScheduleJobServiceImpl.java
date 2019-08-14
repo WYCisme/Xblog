@@ -9,18 +9,15 @@
 package com.blog.job.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.blog.job.dao.ScheduleJobMapper;
+import com.blog.job.mapper.ScheduleJobMapper;
 import com.blog.job.entity.ScheduleJob;
 import com.blog.job.service.IScheduleJobService;
 import com.blog.job.utils.ScheduleUtils;
 import com.blog.model.enums.ScheduleStatus;
-import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.*;

@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.blog.job.dao;
+package com.blog.job.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blog.job.entity.ScheduleJobLog;

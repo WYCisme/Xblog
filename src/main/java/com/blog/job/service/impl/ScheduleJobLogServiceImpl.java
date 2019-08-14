@@ -9,7 +9,7 @@
 package com.blog.job.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.blog.job.dao.ScheduleJobLogMapper;
+import com.blog.job.mapper.ScheduleJobLogMapper;
 import com.blog.job.entity.ScheduleJobLog;
 import com.blog.job.service.IScheduleJobLogService;
 import org.springframework.stereotype.Service;

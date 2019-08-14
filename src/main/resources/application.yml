@@ -38,7 +38,12 @@ spring:
     type: ehcache
     ehcache:
       config: classpath:ehcache.xml
-
+#  data:
+ #   elasticsearch:
+ #     cluster-name: docker-cluster
+  #    cluster-nodes: 192.168.7.8:9300
+server:
+  port: 8099
 #mybatis:
 #  mapper-locations: classpath:mapper/*.xml
 #  type-aliases-package: com.back.back.model.entity

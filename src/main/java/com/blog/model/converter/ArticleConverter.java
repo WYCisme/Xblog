@@ -3,6 +3,7 @@ package com.blog.model.converter;
 import com.blog.model.entity.Article;
 import com.blog.model.form.ArticleForm;
 import com.blog.model.dto.ArticleDTO;
+import com.blog.model.vo.ArticleVO;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -46,6 +47,12 @@ public class ArticleConverter {
     public static ArticleDTO objTodto(Article article){
         ArticleDTO articleDTO = new ArticleDTO();
         BeanUtils.copyProperties(article,articleDTO);
+        return articleDTO;
+    }
+
+    public static ArticleDTO voTodto(ArticleVO articleVO){
+        ArticleDTO articleDTO = new ArticleDTO();
+        BeanUtils.copyProperties(articleVO,articleDTO);
         return articleDTO;
     }
 

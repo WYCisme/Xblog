@@ -30,16 +30,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <!-- 移除嵌入式tomcat插件 -->
              <exclusions>
              <!--    <exclusion>
-                     <groupId>org.springframework.boot</groupId>
-                     <artifactId>spring-boot-starter-tomcat</artifactId>
-                 </exclusion>-->
-                 <exclusion>
                      <artifactId>spring-boot-starter-logging</artifactId>
                      <groupId>org.springframework.boot</groupId>
-                 </exclusion>
+                 </exclusion>-->
              </exclusions>
         </dependency>
 
@@ -56,16 +51,16 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- Spring Boot log4j2 起步依赖 -->
-        <dependency>
+    <!--    <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
-            <!-- <exclusions>
+            &lt;!&ndash; <exclusions>
                  <exclusion>
                      <artifactId>log4j-slf4j-impl</artifactId>
                      <groupId>org.apache.logging.log4j</groupId>
                  </exclusion>
-             </exclusions>-->
-        </dependency>
+             </exclusions>&ndash;&gt;
+        </dependency>-->
 
         <!--springboot - cache -->
         <dependency>
@@ -120,10 +115,10 @@
         </dependency>
 
         <!--spring自带监控插件actuator依赖-->
-        <!--    <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-            </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -208,15 +203,10 @@
         </dependency>
 
         <!--搜索引擎-->
-        <dependency>
+     <!--   <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch.client</groupId>
-            <artifactId>transport</artifactId>
-        </dependency>
-
+        </dependency>-->
 
         <!--热部署TOMCAT-->
         <dependency>

@@ -26,17 +26,18 @@ import java.util.List;
  * 文章前端控制器, 用于VSCODE编辑器
  * </p>
  *
- *
  * @author zhengxin
  * @since 2019-03-29
  */
 @RestController
 @Slf4j
 @RequestMapping("/article")
-public class ArticleRestController extends FrontBaseController {
+public class ArticleRestController extends FrontBaseController
+{
 
     @Autowired
     private ArticleService articleService;
+
 
     /**
      * 添加文章数据
@@ -46,26 +47,30 @@ public class ArticleRestController extends FrontBaseController {
      */
     @PostMapping(value = "/public")
     @SysLog("添加文章数据")
-    public R addArticle(ArticleDTO articleDTO) {
+    public R addArticle(ArticleDTO articleDTO)
+    {
         // 获取用户
         R r = getAdminByAccessToken();
-        if (r.getCode() < 1) {
+        if (r.getCode() < 1)
+        {
             r.setData(articleDTO);
 
             return r;
         }
         articleDTO.setAdminId(((Admin)r.getData()).getId());
         // 如果频道或者标签是空, 则直接对文章进行保存
-        if (StringUtils.isBlank(articleDTO.getSubmitToken())
-            && (StringUtils.isBlank(articleDTO.getChannel()) || StringUtils.isBlank(articleDTO.getLabels()))) {
+        if (StringUtils.isBlank(articleDTO.getSubmitToken()) && (StringUtils.isBlank(articleDTO.getChannel())
+            || StringUtils.isBlank(articleDTO.getLabels())))
+        {
             r = articleService.save(articleDTO);
-            articleDTO.setSubmitToken(r.getData()+"");
+            articleDTO.setSubmitToken(r.getData() + "");
             r.setData(articleDTO);
 
             return r;
         }
-        if (StringUtils.isNotBlank(articleDTO.getSubmitToken())
-            && (StringUtils.isBlank(articleDTO.getChannel()) || StringUtils.isBlank(articleDTO.getLabels()))) {
+        if (StringUtils.isNotBlank(articleDTO.getSubmitToken()) && (StringUtils.isBlank(articleDTO.getChannel())
+            || StringUtils.isBlank(articleDTO.getLabels())))
+        {
             r = articleService.updateBySign(articleDTO);
             r.setData(articleDTO);
 
@@ -75,13 +80,16 @@ public class ArticleRestController extends FrontBaseController {
         QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(Article::getSubmitToken, articleDTO.getSubmitToken());
         Article article = articleService.getOne(queryWrapper);
-        if (article == null) {
+        if (article == null)
+        {
             // 新增文章
             ArticleForm articleForm = ArticleConverter.dtoToForm(articleDTO);
             r = articleService.save(articleForm);
-            articleDTO.setSubmitToken(r.getData()+"");
+            articleDTO.setSubmitToken(r.getData() + "");
             r.setData(articleDTO);
-        } else {
+        }
+        else
+        {
             // 修改
             ArticleForm articleForm = ArticleConverter.dtoToForm(articleDTO);
             r = articleService.updateById(articleForm);
@@ -97,25 +105,50 @@ public class ArticleRestController extends FrontBaseController {
      */
     @PostMapping(value = "/search")
     @SysLog("搜索文章数据")
-    public R searchArticle(ArticleDTO articleDTO) {
+    public R searchArticle(ArticleDTO articleDTO)
+    {
+
         // 获取用户
         R r = getAdminByAccessToken();
-        if (r.getCode() < 1) {
+        if (r.getCode() < 1)
+        {
             r.setData(articleDTO);
 
             return r;
         }
         QueryWrapper<Article> articleQueryWrapper = new QueryWrapper<>();
-        if(StringUtils.isNotBlank(articleDTO.getTitle())){
+        if (StringUtils.isNotBlank(articleDTO.getTitle()))
+        {
             articleQueryWrapper.lambda().like(Article::getTitle, articleDTO.getTitle());
         }
-        IPage<Article> page = articleService.page(new Page<>(1,10), articleQueryWrapper);
+        IPage<Article> page = articleService.page(new Page<>(1, 10), articleQueryWrapper);
         List<ArticleDTO> articleVOList = new ArrayList<>();
-        if(page.getRecords().size() > 0){
-            for (Article article : page.getRecords()) {
+        if (page.getRecords().size() > 0)
+        {
+            for (Article article : page.getRecords())
+            {
                 articleVOList.add(ArticleConverter.objTodto(article));
             }
         }
         return R.ok("查询成功!", articleVOList);
     }
+
+//    @PostMapping(value = "/search2")
+//    @SysLog("搜索文章数据")
+//    public R test(ArticleDTO articleDTO)
+//    {
+//        SearchQuery searchQuery =
+//            new NativeSearchQueryBuilder().withQuery(QueryBuilders.matchQuery("title", articleDTO.getTitle())).build();
+//        List<Article> list = elasticsearchTemplate.queryForList(searchQuery, Article.class);
+//        List<ArticleDTO> articleVOList = new ArrayList<>();
+//        if (articleVOList.size() > 0)
+//        {
+//            for (Article article : list)
+//            {
+//                articleVOList.add(ArticleConverter.objTodto(article));
+//            }
+//        }
+//        return R.ok("查询成功!", articleVOList);
+//    }
+
 }

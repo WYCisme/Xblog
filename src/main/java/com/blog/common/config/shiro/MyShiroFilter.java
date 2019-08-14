@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.blog.common.utils.WebUtils;
@@ -71,7 +72,7 @@ public class MyShiroFilter extends AuthenticatingFilter {
             httpResponse.setHeader("Access-Control-Allow-Origin", WebUtils.getOrigin());
             // 令牌控制
             if (WebUtils.isAjax(httpServletRequest)) {
-                httpResponse.getWriter().write(R.error(org.apache.http.HttpStatus.SC_UNAUTHORIZED, "no token").toString());
+                httpResponse.getWriter().write(R.error(HttpStatus.UNAUTHORIZED.value(), "no token").toString());
                 String path = httpServletRequest.getContextPath();
                 // ajax请求
                 httpResponse.setHeader("sessionstatus", "TIMEOUT");
@@ -104,7 +105,7 @@ public class MyShiroFilter extends AuthenticatingFilter {
         try {
             // 处理登录失败的异常
             Throwable throwable = e.getCause() == null ? e : e.getCause();
-            R r = R.error(org.apache.http.HttpStatus.SC_UNAUTHORIZED, throwable.getMessage());
+            R r = R.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), throwable.getMessage());
 
             String json = JsonUtil.bean2Json(r);
             log.error("  shiro登录失败: " + json, e);
