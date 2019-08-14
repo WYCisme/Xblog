@@ -49,6 +49,7 @@
 
         var layer = layui.layer;
         var message = "${message!''}";
+        console.log(message)
         if (message != "") {
             layer.msg(message);
         }
