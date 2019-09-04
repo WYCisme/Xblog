@@ -12,8 +12,8 @@
                     <li class="author"><a href="">${article.adminName}</a></li>
                     <li class="lmname"><a href="">${article.labels}</a></li>
                     <li class="timer">${article.createDate?date}</li>
-                    <li class="view"><span>${article.viewCount}</span></li>
-                    <li class="like" id="upCount" onclick="upCount()">${article.upCount}</li>
+                    <li class="view"><span>${(article.viewCount)!''}</span></li>
+                    <li class="like" id="upCount" onclick="upCount()">${(article.upCount)!''}</li>
                 </ul>
             </div>
             <#-- 内容主体 -->

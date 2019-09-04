@@ -8,7 +8,7 @@
 
 package com.blog.job.utils;
 
-import com.blog.exception.RestException;
+import com.blog.exception.ResultException;
 import com.blog.job.entity.ScheduleJob;
 import com.blog.model.enums.ScheduleStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public final class ScheduleUtils {
         try {
             return (CronTrigger) scheduler.getTrigger(getTriggerKey(jobId));
         } catch (SchedulerException e) {
-            throw new RestException("获取定时任务CronTrigger出现异常", e);
+            throw new ResultException("获取定时任务CronTrigger出现异常", e);
         }
     }
 
@@ -73,7 +73,7 @@ public final class ScheduleUtils {
             	pauseJob(scheduler, scheduleJob.getId());
             }
         } catch (SchedulerException e) {
-            throw new RestException("创建定时任务失败", e);
+            throw new ResultException("创建定时任务失败", e);
         }
     }
     
@@ -108,7 +108,7 @@ public final class ScheduleUtils {
             }
             
         } catch (SchedulerException e) {
-            throw new RestException("更新定时任务失败", e);
+            throw new ResultException("更新定时任务失败", e);
         }
     }
 
@@ -123,7 +123,7 @@ public final class ScheduleUtils {
         	
             scheduler.triggerJob(getJobKey(scheduleJob.getId()), dataMap);
         } catch (SchedulerException e) {
-            throw new RestException("立即执行定时任务失败", e);
+            throw new ResultException("立即执行定时任务失败", e);
         }
     }
 
@@ -134,7 +134,7 @@ public final class ScheduleUtils {
         try {
             scheduler.pauseJob(getJobKey(jobId));
         } catch (SchedulerException e) {
-            throw new RestException("暂停定时任务失败", e);
+            throw new ResultException("暂停定时任务失败", e);
         }
     }
 
@@ -145,7 +145,7 @@ public final class ScheduleUtils {
         try {
             scheduler.resumeJob(getJobKey(jobId));
         } catch (SchedulerException e) {
-            throw new RestException("暂停定时任务失败", e);
+            throw new ResultException("暂停定时任务失败", e);
         }
     }
 
@@ -156,7 +156,7 @@ public final class ScheduleUtils {
         try {
             scheduler.deleteJob(getJobKey(jobId));
         } catch (SchedulerException e) {
-            throw new RestException("删除定时任务失败", e);
+            throw new ResultException("删除定时任务失败", e);
         }
     }
 

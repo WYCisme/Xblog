@@ -78,6 +78,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public List<String> findPermissions(Long userId) {
+
         return adminMapper.findAdminPermission(userId);
     }
 

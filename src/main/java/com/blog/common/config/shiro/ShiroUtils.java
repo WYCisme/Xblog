@@ -1,6 +1,6 @@
 package com.blog.common.config.shiro;
 
-import com.blog.exception.RestException;
+import com.blog.exception.ResultException;
 import com.blog.model.entity.Admin;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -26,7 +26,7 @@ public class ShiroUtils {
     public static Admin getUserEntity() {
         Admin admin = (Admin) SecurityUtils.getSubject().getPrincipal();
         if (admin == null) {
-            throw new RestException("您当前没有权限", 401);
+            throw new ResultException("您当前没有权限", 401);
         }
         return admin;
     }
@@ -50,7 +50,7 @@ public class ShiroUtils {
 //    public static String getKaptcha(String key) {
 //        Object kaptcha = getSessionAttribute(key);
 //        if (kaptcha == null) {
-//            throw new RestException("验证码已失效");
+//            throw new ResultException("验证码已失效");
 //        }
 //        getSession().removeAttribute(key);
 //        return kaptcha.toString();

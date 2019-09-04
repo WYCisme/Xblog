@@ -129,7 +129,10 @@
         if (data.code > 0) {
             layer.alert(data.msg, {
                     icon: 6
-                });
+                },function(){
+                location.reload();
+            });
+
         } else {
             layer.msg(data.msg)
         }

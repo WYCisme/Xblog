@@ -20,8 +20,8 @@
                         <li class="author"><a href="">${article.adminName}</a></li>
                         <li class="lmname"><a href="">${article.labels}</a></li>
                         <li class="timer">${article.createDate?date}</li>
-                        <li class="view"><span>${article.viewCount}</span></li>
-                        <li class="like">${article.upCount}</li>
+                        <li class="view"><span>${(article.viewCount)!''}</span></li>
+                        <li class="like">${(article.upCount)!''}</li>
                     </ul>
                 </div>
             </div>

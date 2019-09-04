@@ -1,29 +1,29 @@
 package com.blog.controller.back;
 
-import javax.validation.Valid;
-
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.blog.common.config.shiro.ShiroUtils;
+import com.blog.common.utils.ValidatorUtils;
+import com.blog.controller.base.BaseController;
+import com.blog.model.bean.R;
 import com.blog.model.entity.Admin;
+import com.blog.model.entity.Article;
 import com.blog.model.enums.ArticleStatus;
+import com.blog.model.form.ArticleForm;
+import com.blog.model.form.ArticleForm.ArticleGroup;
+import com.blog.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
-
+import net.sf.json.JSONObject;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.blog.controller.base.BaseController;
-import com.blog.model.entity.Article;
-import com.blog.model.form.ArticleForm;
-import com.blog.model.bean.R;
-import com.blog.service.ArticleService;
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -33,14 +33,13 @@ import com.blog.service.ArticleService;
  * @author zhengxin
  * @since 2019-03-29
  */
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/back/article")
 public class ArticleController extends BaseController {
 
     @Autowired
     private ArticleService articleService;
-
 
     /**
      * 查询数据
@@ -51,26 +50,24 @@ public class ArticleController extends BaseController {
      * @return
      */
 //    @RequiresPermissions("article:list")
-    @GetMapping(value = "/list")
-    public ModelAndView list(@RequestParam(value = "permissionVOPage", defaultValue = "1") Integer page, @RequestParam(
-        defaultValue = "10") Integer limit, @ModelAttribute Article article) {
+    @GetMapping()
+    public R list(@RequestParam(defaultValue = "1") Integer page, @RequestParam(
+            defaultValue = "10") Integer limit, @ModelAttribute Article article) {
         ModelAndView modelAndView = new ModelAndView("/back/article/article-list");
         QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
         IPage<Article> pages = article.selectPage(new Page<>(page, limit), null);
-        modelAndView.addObject("pages",pages);
-        return modelAndView;
+        return R.page(pages);
     }
 
     /**
      * 删除文章数据
      *
      * @param ids
-     * @param modelAndView
      * @return
      */
 //    @RequiresPermissions("article:del")
-    @DeleteMapping(value = "{ids}/delete")
-    public @ResponseBody R removeArticle(@PathVariable("ids") String ids, ModelAndView modelAndView) {
+    @DeleteMapping(value = "/{ids}")
+    public R removeArticle(@PathVariable("ids") String ids) {
         String[] idArray = ids.split(",");
         boolean flag = true;
         for (String s : idArray) {
@@ -86,84 +83,47 @@ public class ArticleController extends BaseController {
     }
 
     /**
-     * 进入更新
+     * 获取一个对象
      *
      * @return
      */
 //    @RequiresPermissions("article:edit")
-    @GetMapping("{id}/to/edit")
-    public ModelAndView toEdit(@PathVariable("id") Long id, ModelAndView modelAndView) {
+    @GetMapping("/{id}")
+    public R get(@PathVariable("id") Long id) {
         Article article = articleService.getById(id);
-        modelAndView.addObject("article", article);
-        modelAndView.addObject("em",ArticleStatus.values());
-        modelAndView.setViewName("/back/article/toEditArticle");
-        return modelAndView;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("article", article);
+        jsonObject.put("em", ArticleStatus.values());
+        return R.okT(jsonObject);
     }
 
     /**
      * 更新文章数据
      *
-     * @param flag
      * @param article
-     * @param modelAndView
      * @return
      */
 //    @RequiresPermissions("article:edit")
-    @PutMapping(value = "/edit")
-    public ModelAndView edit(String flag, @ModelAttribute @Valid ArticleForm articleForm,
-        ModelAndView modelAndView, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            log.error(" [ 修改文章 ] 参数不正确 , articleForm ={} ", articleForm);
-            modelAndView.setViewName("forward:/back/article/toAddArticle");
-            modelAndView.addObject("message", "参数不正确");
-            return modelAndView;
-        }
-        R result = articleService.updateById(articleForm);
-        modelAndView.setViewName("/back/article/editArticle");
-        modelAndView.addObject("message", result.getMsg());
-        return modelAndView;
+    @PutMapping()
+    public R edit(@ModelAttribute ArticleForm articleForm) {
+        ValidatorUtils.validateEntity(articleForm, ArticleGroup.class);
+        return articleService.updateById(articleForm);
     }
 
-    /**
-     * 进入添加
-     *
-     * @return
-     */
-//    @RequiresPermissions("article:save")
-    @GetMapping("/toAddArticle")
-    public String toAddArticle(Model model) {
-        model.addAttribute("em",ArticleStatus.values());
-        return "/back/article/toAddArticle";
-    }
 
     /**
      * 添加文章数据
      *
-     * @param flag
      * @param articleForm
-     * @param modelAndView
-     * @param bindingResult
-     * @param redirectAttributes
      * @return
      */
 //    @RequiresPermissions("article:save")
-    @PostMapping(value = "/add")
-    public ModelAndView addArticle(@ModelAttribute @Valid ArticleForm articleForm,
-         BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        ModelAndView modelAndView = new ModelAndView();
-        if (bindingResult.hasErrors()) {
-            log.error(" [ 添加文章 ] 参数不正确 , articleForm ={} ", articleForm);
-            modelAndView.setViewName("forward:/back/article/toAddArticle");
-            modelAndView.addObject("message", "参数不正确");
-            return modelAndView;
-        }
+    @PostMapping()
+    public R addArticle(@ModelAttribute ArticleForm articleForm) {
+        ValidatorUtils.validateEntity(articleForm, ArticleGroup.class);
         Admin admin = ShiroUtils.getUserEntity();
         articleForm.setAdminId(admin.getId());
-
-        R result = articleService.save(articleForm);
-        modelAndView.setViewName("forward:/back/article/index");
-        modelAndView.addObject("message", result.getMsg());
-        return modelAndView;
+        return articleService.save(articleForm);
     }
 
 }

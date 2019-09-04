@@ -65,7 +65,7 @@ public class PermissionController {
     //    @RequiresPermissions("permission:list")
     @RequestMapping(value = "/list")
     public @ResponseBody
-    R list(@RequestParam(value = "permissionVOPage", defaultValue = "1") Integer page,
+    R list(@RequestParam(value = "page", defaultValue = "1") Integer page,
         @RequestParam(defaultValue = "10") Integer limit, @ModelAttribute Permission permission) {
         QueryWrapper<PermissionVO> queryWrapper = new QueryWrapper<>();
         IPage<PermissionVO> pages = permissionService.permissionVOPage(new Page<>(page, limit), queryWrapper);

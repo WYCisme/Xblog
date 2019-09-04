@@ -6,29 +6,29 @@ package com.blog.exception;
  * @author Avalon
  * @date 2019/3/26
  */
-public class RestException extends RuntimeException {
+public class ResultException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     private String msg;
     private int code = 500;
 
-    public RestException(String msg) {
+    public ResultException(String msg) {
         super(msg);
         this.msg = msg;
     }
 
-    public RestException(String msg, Throwable e) {
+    public ResultException(String msg, Throwable e) {
         super(msg, e);
         this.msg = msg;
     }
 
-    public RestException(String msg, int code) {
+    public ResultException(String msg, int code) {
         super(msg);
         this.msg = msg;
         this.code = code;
     }
 
-    public RestException(String msg, int code, Throwable e) {
+    public ResultException(String msg, int code, Throwable e) {
         super(msg, e);
         this.msg = msg;
         this.code = code;

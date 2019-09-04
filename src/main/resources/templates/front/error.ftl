@@ -16,7 +16,7 @@
     <div class="fly-panel">
         <div class="fly-none">
             <h2><i class="layui-icon layui-icon-404"></i></h2>
-            <p>前台页面或者数据被<a href="${request.contextPath}/back/index"> 纸飞机 </a>运到火星了，啥都看不到了…</p>
+            <p>ERROR ! 前台页面或者数据被<a href="${request.contextPath}/back/index"> 纸飞机 </a>运到火星了，啥都看不到了…</p>
         </div>
     </div>
 </div>

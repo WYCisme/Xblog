@@ -59,4 +59,6 @@ public class ArticleForm {
      */
     private String submitToken;
 
+
+    public interface ArticleGroup{}
 }

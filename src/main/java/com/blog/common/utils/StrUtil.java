@@ -131,7 +131,7 @@ public class StrUtil
     public static String findIntro(String content)
     {
 
-        String[] split = content.split("<!--title-->");
+        String[] split = content.split("<!-- title -->");
         if (split != null && split.length >= 2)
         {
             return split[0];
