@@ -11,7 +11,7 @@ package com.blog.job.utils;
 
 import com.blog.common.utils.SpringUtil;
 import com.blog.job.entity.ScheduleJobLog;
-import com.blog.job.service.IScheduleJobLogService;
+import com.blog.job.service.ScheduleJobLogService;
 import org.apache.commons.lang.StringUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -21,7 +21,6 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * 定时任务
@@ -36,7 +35,7 @@ public class SchedulePlan extends QuartzJobBean
         		.get(com.blog.job.entity.ScheduleJob.JOB_PARAM_KEY);
         
         //获取spring bean
-        IScheduleJobLogService scheduleJobLogService = (IScheduleJobLogService) SpringUtil.getBean("scheduleJobLogService");
+        ScheduleJobLogService scheduleJobLogService = (ScheduleJobLogService) SpringUtil.getBean("scheduleJobLogService");
         
         //数据库保存执行记录
         ScheduleJobLog log = new ScheduleJobLog();

@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Mark sunlightcs@gmail.com
  */
-public interface IScheduleJobService extends IService<ScheduleJob> {
+public interface ScheduleJobService extends IService<ScheduleJob> {
 
 	/**
 	 * 保存定时任务
@@ -38,20 +38,20 @@ public interface IScheduleJobService extends IService<ScheduleJob> {
 	/**
 	 * 批量更新定时任务状态
 	 */
-	int updateBatch(Long[] jobIds, int status);
+	int updateBatch(List<Long> jobIds, int status);
 	
 	/**
 	 * 立即执行
 	 */
-	void run(Long[] jobIds);
+	void run(List<Long> jobIds);
 	
 	/**
 	 * 暂停运行
 	 */
-	void pause(Long[] jobIds);
+	void pause(List<Long> jobIds);
 	
 	/**
 	 * 恢复运行
 	 */
-	void resume(Long[] jobIds);
+	void resume(List<Long> jobIds);
 }

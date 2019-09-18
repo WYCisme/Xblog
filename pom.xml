@@ -51,16 +51,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- Spring Boot log4j2 起步依赖 -->
-    <!--    <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-            &lt;!&ndash; <exclusions>
-                 <exclusion>
-                     <artifactId>log4j-slf4j-impl</artifactId>
-                     <groupId>org.apache.logging.log4j</groupId>
-                 </exclusion>
-             </exclusions>&ndash;&gt;
-        </dependency>-->
+        <dependency>
+            <groupId>net.mingsoft</groupId>
+            <artifactId>shiro-freemarker-tags</artifactId>
+            <version>0.1</version>
+        </dependency>
+
 
         <!--springboot - cache -->
         <dependency>

@@ -1,16 +1,14 @@
 package com.blog.common.config;
 
-import javax.annotation.PostConstruct;
-
 import cn.org.rapid_framework.freemarker.directive.BlockDirective;
 import cn.org.rapid_framework.freemarker.directive.ExtendsDirective;
 import cn.org.rapid_framework.freemarker.directive.OverrideDirective;
 import cn.org.rapid_framework.freemarker.directive.SuperDirective;
+import com.jagregory.shiro.freemarker.ShiroTags;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
+
+import javax.annotation.PostConstruct;
 
 
 /**
@@ -34,6 +32,7 @@ public class FreeMarkerConfig {
 		configuration.setSharedVariable("override", new OverrideDirective());
 		configuration.setSharedVariable("extends", new ExtendsDirective());
 		configuration.setSharedVariable("super", new SuperDirective());
+        configuration.setSharedVariable("shiro", new ShiroTags());
 	}
 
 }

@@ -11,7 +11,7 @@ package com.blog.job.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blog.job.mapper.ScheduleJobMapper;
 import com.blog.job.entity.ScheduleJob;
-import com.blog.job.service.IScheduleJobService;
+import com.blog.job.service.ScheduleJobService;
 import com.blog.job.utils.ScheduleUtils;
 import com.blog.model.enums.ScheduleStatus;
 import org.quartz.Scheduler;
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, ScheduleJob> implements IScheduleJobService
+public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, ScheduleJob> implements ScheduleJobService
 {
 
 	@Resource
@@ -88,7 +88,7 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, Sched
 	}
 
 	@Override
-    public int updateBatch(Long[] jobIds, int status){
+    public int updateBatch(List<Long> jobIds, int status){
     	Map<String, Object> map = new HashMap<>(2);
     	map.put("list", jobIds);
     	map.put("status", status);
@@ -97,7 +97,7 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, Sched
     
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-    public void run(Long[] jobIds) {
+    public void run(List<Long> jobIds) {
     	for(Long jobId : jobIds){
     		ScheduleUtils.run(scheduler, this.getById(jobId));
     	}
@@ -105,7 +105,7 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, Sched
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-    public void pause(Long[] jobIds) {
+    public void pause(List<Long> jobIds) {
         for(Long jobId : jobIds){
     		ScheduleUtils.pauseJob(scheduler, jobId);
     	}
@@ -115,7 +115,7 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, Sched
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-    public void resume(Long[] jobIds) {
+    public void resume(List<Long> jobIds) {
     	for(Long jobId : jobIds){
     		ScheduleUtils.resumeJob(scheduler, jobId);
     	}

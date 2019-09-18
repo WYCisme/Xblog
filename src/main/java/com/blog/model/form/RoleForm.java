@@ -33,4 +33,6 @@ public class RoleForm  {
 
     List<Long> permissions;
 
+
+    public interface RoleGroup{}
 }

@@ -16,7 +16,7 @@ import com.blog.job.entity.ScheduleJobLog;
  *
  * @author Mark sunlightcs@gmail.com
  */
-public interface IScheduleJobLogService extends IService<ScheduleJobLog> {
+public interface ScheduleJobLogService extends IService<ScheduleJobLog> {
 
 
 	

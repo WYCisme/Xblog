@@ -79,5 +79,6 @@ public class ScheduleJob extends Model<ScheduleJob>
     private LocalDateTime updateDate;
 
 
+    public interface ScheduleGroup{}
 
 }

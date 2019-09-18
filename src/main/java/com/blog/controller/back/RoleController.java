@@ -4,11 +4,13 @@ package com.blog.controller.back;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.blog.common.utils.ValidatorUtils;
 import com.blog.model.bean.R;
 import com.blog.model.entity.Permission;
 import com.blog.model.entity.Role;
 import com.blog.model.entity.RolePermission;
 import com.blog.model.form.RoleForm;
+import com.blog.model.form.RoleForm.RoleGroup;
 import com.blog.model.vo.PermissionVO;
 import com.blog.service.PermissionService;
 import com.blog.service.RolePermissionService;
@@ -37,7 +39,7 @@ import java.util.stream.Collectors;
  * @author zhengxin
  * @since 2019-03-29
  */
-@Controller
+@RestController
 @Slf4j
 @RequestMapping("/back/role")
 public class RoleController {
@@ -52,16 +54,6 @@ public class RoleController {
     private RolePermissionService rolePermissionService;
 
     /**
-     * 角色操作首页
-     *
-     * @return
-     */
-    @RequestMapping("/index")
-    public String index() {
-        return "/back/role/role-list";
-    }
-
-    /**
      * 查询数据
      *
      * @param page
@@ -69,7 +61,7 @@ public class RoleController {
      * @param role
      * @return
      */
-//    @RequiresPermissions("role:list")
+    @RequiresPermissions("role:list")
     @RequestMapping(value = "/list")
     public @ResponseBody R list(@RequestParam(value = "permissionVOPage", defaultValue = "1") Integer page,
         @RequestParam(defaultValue = "10") Integer limit, @ModelAttribute Role role) {
@@ -86,8 +78,8 @@ public class RoleController {
      * @return
      */
     @RequiresPermissions("role:del")
-    @RequestMapping(value = "{ids}/del")
-    public @ResponseBody R del(@PathVariable("ids") String ids) {
+    @DeleteMapping(value = "/{ids}")
+    public R del(@PathVariable("ids") String ids) {
         String[] idArray = ids.split(",");
         boolean flag = true;
         for (String s : idArray) {
@@ -102,30 +94,7 @@ public class RoleController {
         return R.error("删除失败!");
     }
 
-    /**
-     * 进入更新
-     *
-     * @return
-     */
-//    @RequiresPermissions("role:edit")
-    @GetMapping("{id}/to/edit")
-    public ModelAndView toEdit(@PathVariable("id") Long id, ModelAndView modelAndView) {
-        //权限
-        List<PermissionVO> permissions = permissionService.permissionVOList(new QueryWrapper<>());
-        Map<Long,List<PermissionVO>> permissionMap = permissions.stream().collect(Collectors.groupingBy(PermissionVO::getPermissionTypeId));
-        modelAndView.addObject("permissionMap", permissionMap);
 
-        Role role = roleService.getById(id);
-        modelAndView.addObject("role", role);
-
-        QueryWrapper<RolePermission> rolePermissionQueryWrapper = new QueryWrapper<>();
-        rolePermissionQueryWrapper.lambda().eq(RolePermission::getRoleId, id);
-        List<Long> myPermissions = rolePermissionService.list(rolePermissionQueryWrapper).stream().map(r -> r.getPermissionId() ).collect(Collectors
-            .toList());
-        modelAndView.addObject("myPermissions", myPermissions);
-        modelAndView.setViewName("/back/role/role-edit");
-        return modelAndView;
-    }
 
     /**
      * 更新角色数据
@@ -136,35 +105,15 @@ public class RoleController {
      * @param redirectAttributes
      * @return
      */
-//    @RequiresPermissions("role:edit")
+    @RequiresPermissions("role:edit")
     @RequestMapping(value = "/edit")
-    public @ResponseBody R editRole(@ModelAttribute @Valid RoleForm roleForm, ModelAndView modelAndView,
-        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            log.error(" [ 修改角色 ] 参数不正确 , roleForm ={} ", roleForm);
-            return R.error("参数不正确");
-        }
+    public @ResponseBody R editRole(@ModelAttribute RoleForm roleForm){
+        ValidatorUtils.validateEntity(roleForm, RoleGroup.class);
         R result = roleService.update(roleForm);
         return R.ok(result.getMsg());
     }
 
-    /**
-     * 进入添加
-     *
-     * @return
-     */
-//    @RequiresPermissions("role:save")
-    @GetMapping("/to/save")
-    public ModelAndView save(ModelAndView modelAndView) {
-        //权限
-        List<PermissionVO> permissions = permissionService.permissionVOList(new QueryWrapper<>());
-        Map<Long,List<PermissionVO>> permissionMap = permissions.stream().collect(Collectors.groupingBy(PermissionVO::getPermissionTypeId));
-        modelAndView.addObject("permissionMap", permissionMap);
 
-        modelAndView.setViewName("back/role/role-save");
-
-        return modelAndView;
-    }
 
     /**
      * 添加角色数据
@@ -175,14 +124,10 @@ public class RoleController {
      * @param redirectAttributes
      * @return
      */
-//    @RequiresPermissions("role:save")
-    @PostMapping(value = "/save")
-    public @ResponseBody R save(@ModelAttribute @Valid RoleForm roleForm, ModelAndView modelAndView,
-        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            log.error(" [ 添加角色 ] 参数不正确 , roleForm ={} ", roleForm);
-            return R.error("参数不正确");
-        }
+    @RequiresPermissions("role:save")
+    @PostMapping(value = "/")
+    public @ResponseBody R save(@ModelAttribute @Valid RoleForm roleForm) {
+        ValidatorUtils.validateEntity(roleForm, RoleGroup.class);
         R result = roleService.save(roleForm);
         return R.ok(result.getMsg());
     }

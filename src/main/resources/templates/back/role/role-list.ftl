@@ -41,7 +41,7 @@
         //执行一个 table 实例
         table.render({
             elem: '#role-table'
-            ,url: '/back/role/list' //数据接口
+            ,url: '/back/role/' //数据接口
             ,title: '角色表'
             ,page: true //开启分页
             ,limit: 10
@@ -62,7 +62,7 @@
                     ,data = checkStatus.data; //获取选中的数据
             switch(obj.event){
                 case 'add':
-                    xadmin.open('添加','${request.contextPath}/back/role/to/save');
+                    xadmin.open('添加','${request.contextPath}/back/home/role/save');
                     break;
                 case 'update':
                     if(data.length === 0){
@@ -70,7 +70,7 @@
                     } else if(data.length > 1){
                         layer.msg('只能同时编辑一个');
                     } else {
-                        xadmin.open('编辑','${request.contextPath}/back/role/'+checkStatus.data[0].id+'/to/edit');
+                        xadmin.open('编辑','${request.contextPath}/back/role/'+checkStatus.data[0].id+'/edit');
                     }
                     break;
                 case 'delete':
@@ -117,7 +117,7 @@
                     });
                 });
             } else if(layEvent === 'edit'){
-                xadmin.open('编辑操作','${request.contextPath}/back/role/'+data.id+'/to/edit');
+                xadmin.open('编辑操作','${request.contextPath}/back/role/'+data.id+'/edit');
             }
         });
         //监听搜索
