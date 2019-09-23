@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <el-card shadow="hover" class="about-me">
-            <el-avatar :size="122" :src="circleUrl" style="margin:50px 0px;"></el-avatar>
+            <el-avatar :size="122"  style="margin:50px 0px;"></el-avatar>
          <div style="margin:10px;font-size:20px; margin-bottom:0px;">
                 Avalon | 郑新
             </div>

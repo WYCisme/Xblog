@@ -2,11 +2,11 @@
     <div class="article-up">
         <el-card shadow="hover" class="about-me">
             <h2 class="hometitle">推荐文章</h2>
-            <el-avatar class="tjpic" shape="square" :src="squareUrl">
+            <el-avatar class="tjpic" shape="square" >
                 <a style="bottom" href="">1234222222222222222233333333333333333222222222256</a>
             </el-avatar>
             <li v-for="i in 6">
-                <el-avatar :size="70" shape="square" :src="squareUrl" style="float:left; margin-right: 5px;">
+                <el-avatar :size="70" shape="square"  style="float:left; margin-right: 5px;">
                 </el-avatar>
                 <div class="title">1111111111111111ffffffffffffffffff11111</div>
                 <div class="title title2"> <i class="el-icon-time"></i> 2019-09-09</div>
