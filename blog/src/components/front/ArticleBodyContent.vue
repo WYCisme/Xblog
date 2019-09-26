@@ -3,32 +3,32 @@
         <el-col :span="9" :offset="5">
             <el-row :gutter="0">
                 <el-col :span="24">
-                    <el-card shadow="hover" style="margin:5px;" v-for="(i,index) in 10" :key="index"  >
+                    <el-card shadow="hover" style="margin:5px;" v-for="(i,index) in list" :key="index">
                         <el-row :gutter="8">
                             <el-col :span="24">
-                                <router-link :to="'/article/'+ i"><h2>vue+element(八)事件监听与计算属性</h2> </router-link>
+                                <router-link :to="'/article/'+ i">
+                                    <h2>{{i.title}}</h2>
+                                </router-link>
                             </el-col>
                             <el-col :span="24" class="article-body">
-                                有时候需要特别计算值,有时候又需要监听属性
-                                <!-- title -->
-                                [TOC] ## computed计算属性 一般对vue 对象进行操作, 但是又不想直接在{{}}里面进行表达式操作,这时候就可以用computed属性进行监听. 任何computed下方法里面包含的vue属性发生变化,计算属性都会发生变化
+                                {{i.intro}}
                             </el-col>
                             <el-col :span="24">
                                 <el-row :gutter="8" class="article-bottom auto">
-                                    <el-col >
-                                        <i class="el-icon-user-solid"></i>zhengxin
+                                    <el-col>
+                                        <i class="el-icon-user-solid"></i>{{i.adminName}}
                                     </el-col>
-                                    <el-col >
-                                        <i class="el-icon-s-operation"></i>java
+                                    <el-col>
+                                        <i class="el-icon-s-operation"></i>{{i.labels}}
                                     </el-col>
                                     <el-col :span="5">
-                                        <i class="el-icon-time"></i>2019-09-09
+                                        <i class="el-icon-time"></i>{{i.createDate}}
                                     </el-col>
                                     <el-col :span="4">
-                                        <i class="el-icon-view"></i>100
+                                        <i class="el-icon-view"></i>{{i.viewCount}}
                                     </el-col>
                                     <el-col :span="4">
-                                        <i class="el-icon-star-on"></i>20
+                                        <i class="el-icon-star-on"></i>{{i.upCount}}
                                     </el-col>
                                 </el-row>
                             </el-col>
@@ -36,7 +36,7 @@
                     </el-card>
                 </el-col>
                 <el-col :span="24" style="text-align: center;margin-top:10px">
-                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="10">
                     </el-pagination>
                 </el-col>
             </el-row>
@@ -53,14 +53,29 @@
             },
             handleCurrentChange(val) {
                 console.log(`当前页: ${val}`);
+                this.getData(val)
+            },
+            getData() {
+                this.$get("home/article", {
+                    page: this.page,
+                    size: this.size
+                }).then(res => {
+                    console.log("res=======", res)
+                    this.$resultCheck(res.data, true, true).then(res => {
+                        this.list = res.data.records
+                    }).catch(res => {})
+                })
             }
+        },
+        created() {
+            //获取数据
+            this.getData()
         },
         data() {
             return {
-                currentPage1: 5,
-                currentPage2: 5,
-                currentPage3: 5,
-                currentPage4: 4
+                page: 1,
+                size: 10,
+                list: []
             };
         },
     }
@@ -82,5 +97,9 @@
     .article-bottom.auto div {
         width: auto;
         font-size: 13px;
+    }
+    a {
+        color: #000;
+        text-decoration: none;
     }
 </style>
