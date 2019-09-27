@@ -29,9 +29,9 @@
     export default {}
 </script>
 
-<style scoped>
+<style>
     .about-me {
         text-align: center;
-        margin: 5px;
+        margin: 5px 2px 5px;
     }
 </style>

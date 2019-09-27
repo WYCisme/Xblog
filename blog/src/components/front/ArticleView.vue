@@ -3,13 +3,13 @@
         <el-card shadow="hover" class="about-me">
             <h2 class="hometitle">最多收藏</h2>
             <el-avatar class="tjpic" shape="square" >
-                <a style="bottom" href="">1234222222222222222233333333333333333222222222256</a>
+                <a style="bottom" href="">{{one.title}}</a>
             </el-avatar>
-            <li v-for="i in 6 ">
+            <li v-for="i in list " :key="i.id">
                 <el-avatar :size="70" shape="square"  style="float:left; margin-right: 5px;">
                 </el-avatar>
-                <div class="title">1111111111111111ffffffffffffffffff11111</div>
-                <div class="title title2"> <i class="el-icon-time"></i> 2019-09-09</div>
+                <div class="title">{{i.title}}</div>
+                <div class="title title2"> <i class="el-icon-time"></i> {{i.createDate}}</div>
             </li>
         </el-card>
     </div>
@@ -17,7 +17,29 @@
 
 <script>
     export default {
-        name: 'ArticleUp'
+        name: 'ArticleUp',
+         methods: {
+            getData() {
+                this.$get("home/article/isView").then(res => {
+                    this.$resultCheck(res.data, true, true).then(res => {
+                        this.list = res.data.records
+                        this.total = res.data.total
+                        this.one = this.list.shift()
+                    }).catch(res => {})
+                })
+            }
+        },
+        created() {
+            //获取数据
+            this.getData()
+        },
+        data() {
+            return {
+                total: 1,
+                one: {},
+                list: []
+            };
+        },
     }
 </script>
 

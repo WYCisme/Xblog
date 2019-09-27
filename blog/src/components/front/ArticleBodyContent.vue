@@ -7,7 +7,7 @@
                         <el-row :gutter="8">
                             <el-col :span="24">
                                 <router-link :to="'/article/'+ i">
-                                    <h2>{{i.title}}</h2>
+                                    <h2 class="title-hide">{{i.title}}</h2>
                                 </router-link>
                             </el-col>
                             <el-col :span="24" class="article-body">
@@ -36,7 +36,7 @@
                     </el-card>
                 </el-col>
                 <el-col :span="24" style="text-align: center;margin-top:10px">
-                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="10">
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[10, 20, 30, 40]" :page-size="size" layout="total, sizes, prev, pager, next, jumper" :total="total">
                     </el-pagination>
                 </el-col>
             </el-row>
@@ -49,20 +49,21 @@
         name: 'ArtileBody',
         methods: {
             handleSizeChange(val) {
-                console.log(`每页 ${val} 条`);
+                this.size = val
+                this.getData()
             },
             handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
-                this.getData(val)
+                this.page = val
+                this.getData()
             },
             getData() {
                 this.$get("home/article", {
                     page: this.page,
                     size: this.size
                 }).then(res => {
-                    console.log("res=======", res)
                     this.$resultCheck(res.data, true, true).then(res => {
                         this.list = res.data.records
+                        this.total = res.data.total
                     }).catch(res => {})
                 })
             }
@@ -75,6 +76,7 @@
             return {
                 page: 1,
                 size: 10,
+                total:1,
                 list: []
             };
         },
@@ -101,5 +103,10 @@
     a {
         color: #000;
         text-decoration: none;
+    }
+    .title-hide{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space:nowrap;
     }
 </style>

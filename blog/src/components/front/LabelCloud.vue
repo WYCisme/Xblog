@@ -1,22 +1,43 @@
 <template>
     <div class="cloud">
-        <el-card shadow="hover" class="about-me">
+        <el-card shadow="hover" class="about-me2">
             <h2 class="hometitle">标签云</h2>
             <ul>
-                <a href="" v-for="(i,index) in 50" :key="index">{{i}}</a>
+                <a href="" v-for="(i,index) in list" :key="index">{{i.name}}</a>
             </ul>
         </el-card>
     </div>
 </template>
 
 <script>
-    export default {}
+    export default {
+        name: 'LabelCloud',
+        methods: {
+            getData() {
+                this.$get("home/article/labels").then(res => {
+                    this.$resultCheck(res.data, true, true).then(res => {
+                        console.log("res",res)
+                        this.list = res.data
+                    }).catch(res => {})
+                })
+            }
+        },
+        created() {
+            //获取数据
+            this.getData()
+        },
+        data() {
+            return {
+                list: []
+            };
+        },
+    }
 </script>
 
 <style scoped>
-    .about-me {
-        text-align: left;
-        margin: 5px;
+    .about-me2 {
+        text-align: center;
+        margin: 0px 2px 5px;
     }
     .hometitle {
         font-size: 18px;
@@ -52,7 +73,6 @@
         overflow: hidden;
         font-size: 14px;
         padding-inline-start: 10px;
-
     }
     .cloud ul a {
         line-height: 24px;
